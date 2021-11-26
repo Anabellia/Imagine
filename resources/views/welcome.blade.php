@@ -3,5 +3,10 @@
 @section('content')
 
 
-alo
+    <h1>Holla!! from Welcome bleada</h1>
+    <hr>
+
+    
+    <livewire:editimg />
+
 @endsection
