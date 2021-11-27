@@ -20,6 +20,10 @@ class Editimg extends Component
 
     public function addComment(){
 
+        if($this->newComment == ''){
+            return;
+        }
+
         array_unshift($this->comments, [            
             'body' => $this->newComment,
             'created_at' => Carbon::now()->diffForHumans(),

@@ -5,12 +5,12 @@
 
     
 
-        <div class="container">        
+        <form wire:submit.prevent="addComment"  class="container">   
             <div class="row justify-content-md-center">
-            <input wire:model="newComment" type="text" class="form-control" placeholder="Comment" >
-                <button wire:click="addComment" type="button" class="btn btn-primary">Primary</button>
+            <input wire:model.lazy="newComment" type="text" class="form-control" placeholder="Comment" >
+                <button type="submit" class="btn btn-primary">Submit</button>
             </div>
-        </div>
+        </form>
         <br>
         <br>
 
