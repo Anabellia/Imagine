@@ -19,9 +19,9 @@
             <div class="row justify-content-md-center">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
-                        <h3 class="card-title">{{$comment['creator']}}</h3>
-                        <h6 class="card-subtitle mb-2 text-muted">{{$comment['created_at']}}</h6>                    
-                        <p class="card-text">{{$comment['body']}}</p>                    
+                        <h3 class="card-title">{{$comment->creator->name}}</h3>
+                        <h6 class="card-subtitle mb-2 text-muted">{{$comment->created_at->diffForHumans()}}</h6>                    
+                        <p class="card-text">{{$comment->body}}</p>                    
                     </div>
                 </div>
             </div>

@@ -4,19 +4,21 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use Carbon\Carbon;
+use App\Models\Comment;
+
 
 class Editimg extends Component
 {
 
     public $newComment;
-    public $comments = [
+    public $comments;
 
-            [
-                'body' => 'Prvi body txt koji treba bit malo duzi jel',
-                'created_at' => '3 min ago',
-                'creator' => 'Keljmenc',
-            ]
-        ];
+    public function mount(){
+
+        $initialComments = Comment::all();
+        $this->comments = $initialComments;
+        
+    }
 
     public function addComment(){
 
