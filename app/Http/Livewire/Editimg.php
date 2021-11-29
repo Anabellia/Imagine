@@ -13,24 +13,34 @@ class Editimg extends Component
     public $newComment;
     public $comments;
 
+    protected $rules = [
+        'newComment' => 'required|max:6',
+        
+    ];
+
     public function mount(){
 
-        $initialComments = Comment::all();
+        $initialComments = Comment::latest()->get();
         $this->comments = $initialComments;
         
     }
 
+    public function updated($field)
+    {
+        $this->validateOnly($field, ['newComment' => 'required|max:25']);
+    }
+
     public function addComment(){
 
-        if($this->newComment == ''){
-            return;
-        }
+        
 
-        array_unshift($this->comments, [            
-            'body' => $this->newComment,
-            'created_at' => Carbon::now()->diffForHumans(),
-            'creator' => 'Mariska',
-        ]);
+        $createdComment = Comment::create(
+            [
+                'body' => $this->newComment, 
+                'user_id' => 1
+            ]);
+
+        $this->comments->prepend($createdComment);
 
         //to clear text input
         $this->newComment = "";

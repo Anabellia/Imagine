@@ -7,7 +7,9 @@
 
         <form wire:submit.prevent="addComment"  class="container">   
             <div class="row justify-content-md-center">
-            <input wire:model.lazy="newComment" type="text" class="form-control" placeholder="Comment" >
+                @error('newComment') <h4> <span class="error text-danger font-weight-normal" >{{ $message }}</span> </h4> @enderror
+                <input wire:model.lazy="newComment" type="text" class="form-control" placeholder="Comment" >
+                    
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </form>
