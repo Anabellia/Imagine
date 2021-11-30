@@ -13,10 +13,7 @@ class Editimg extends Component
     public $newComment;
     public $comments;
 
-    protected $rules = [
-        'newComment' => 'required|max:6',
-        
-    ];
+    
 
     public function mount(){
 
@@ -25,14 +22,14 @@ class Editimg extends Component
         
     }
 
-    public function updated($field)
+    public function updated($newComment)
     {
-        $this->validateOnly($field, ['newComment' => 'required|max:25']);
+        $this->validateOnly($newComment, ['newComment' => 'required|max:120']);
     }
 
     public function addComment(){
 
-        
+        $this->validate(['newComment' => 'required|max:120']);
 
         $createdComment = Comment::create(
             [
