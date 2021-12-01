@@ -29,10 +29,10 @@
                             <div class="ml-auto">
                             <!-- Iconica x -->                                                        
                                 <i wire:click="remove({{$comment->id}})" 
-                                                                class="fas fa-times fa-lg" 
-                                                                onmouseover="this.style.color='red'" 
-                                                                onmouseout="this.style.color='black'" 
-                                                                style="cursor: pointer;" ></i>                                                        
+                                        class="fas fa-times fa-lg" 
+                                        onmouseover="this.style.color='red'" 
+                                        onmouseout="this.style.color='black'" 
+                                        style="cursor: pointer;" ></i>                                                        
                             <!--kraj za Iconica x -->
                             </div>
                         </div>
