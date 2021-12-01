@@ -15,7 +15,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <!-- Font koji je u stvari icone -->
+    <!-- Font koji je u stvari icone FONTAWESOME -->
     <script src="https://kit.fontawesome.com/08d6af9d9e.js" crossorigin="anonymous"></script>
 
     <!-- Styles -->
