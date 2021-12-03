@@ -8,9 +8,15 @@
         <form wire:submit.prevent="addComment"  class="container">   
             <div class="row justify-content-md-center">
                 @error('newComment') <h4> <span class="error text-danger font-weight-normal" >{{ $message }}</span> </h4> @enderror
-                <input wire:model.debounce.500ms="newComment" type="text" class="form-control" placeholder="Comment" >
+                
+                <div>
+                    <input wire:model.debounce.500ms="newComment" type="text" class="form-control" placeholder="Comment" >
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
                     
-                <button type="submit" class="btn btn-primary">Submit</button>
+                
             </div>
         </form>
         <br>
@@ -47,6 +53,7 @@
                 </div>
             </div>
         </div>
+        <br>
     @endforeach
 
 
