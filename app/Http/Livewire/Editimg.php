@@ -42,11 +42,23 @@ class Editimg extends Component
         //to clear text input
         $this->newComment = "";
 
+        //Ovo je primer kako mozes da pass array o nekom varu
         /* $this->comments[] = [            
             'body' => 'Drugi body txt koji treba biti jooooos malo duzi jel',
             'created_at' => '1 min ago',
             'creator' => 'Mariska',
         ]; */
+    }
+
+    //ovaj commentID to je ono sto dobijamo iz bledea i nemoramo ga definisati
+    public function remove($commentID)
+    {
+        /* ovde nadjemo commentar iz db po onom sto nam je klick na x u bladeu poslao id od tog commentara */
+        $comment = Comment::find($commentID);
+        $comment->delete();
+        /* Ovde resetujemo commentse da bi izbacili upravo obrisanog */
+        $this->comments = $this->comments->except($commentID);
+        //dd($comment);
     }
 
     public function render()

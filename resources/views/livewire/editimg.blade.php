@@ -27,12 +27,16 @@
                                 <h3 class="card-title">{{$comment->creator->name}}</h3>
                             </div>
                             <div class="ml-auto">
-                            <!-- Iconica x -->                                                        
-                                <i wire:click="remove({{$comment->id}})" 
-                                        class="fas fa-times fa-lg" 
+                            <!-- Iconica x -->            
+                                    <!-- Ovaj comment id kako je se dobio je 
+                                    interesantan ako hoces da capis nesto iz bledea mora biti double bracess
+                                    A ovaj fas fa-times je iconica iz fontawesome!!!
+                                    -->                                            
+                                <i wire:click="remove({{$comment->id}})"                                         
+                                        class="fas fa-times" 
                                         onmouseover="this.style.color='red'" 
-                                        onmouseout="this.style.color='black'" 
-                                        style="cursor: pointer;" ></i>                                                        
+                                        onmouseout="this.style.color='grey'" 
+                                        style="cursor: pointer; color: grey" ></i>                                                        
                             <!--kraj za Iconica x -->
                             </div>
                         </div>
