@@ -20,7 +20,6 @@
             </div>
         </form>
         <br>
-        <br>
 
     @foreach($comments as $comment)    
         <div class="container">
