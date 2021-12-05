@@ -5,22 +5,25 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Carbon\Carbon;
 use App\Models\Comment;
+use Livewire\WithPagination;
 
 
 class Editimg extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
 
     public $newComment;
-    public $comments;
+    //public $comments;
 
     
 
-    public function mount(){
+    /* public function mount(){
 
         $initialComments = Comment::latest()->get();
         $this->comments = $initialComments;
         
-    }
+    } */
 
     public function updated($newComment)
     {
@@ -37,10 +40,12 @@ class Editimg extends Component
                 'user_id' => 1
             ]);
 
-        $this->comments->prepend($createdComment);
+        //$this->comments->prepend($createdComment);
 
         //to clear text input
         $this->newComment = "";
+
+        session()->flash('message', 'comment added successfully :)');
 
         //Ovo je primer kako mozes da pass array o nekom varu
         /* $this->comments[] = [            
@@ -57,12 +62,15 @@ class Editimg extends Component
         $comment = Comment::find($commentID);
         $comment->delete();
         /* Ovde resetujemo commentse da bi izbacili upravo obrisanog */
-        $this->comments = $this->comments->except($commentID);
+        //$this->comments = $this->comments->except($commentID);
         //dd($comment);
+        session()->flash('message', 'comment deleted successfully :)');
     }
 
     public function render()
     {
-        return view('livewire.editimg');
+        return view('livewire.editimg', [
+            'comments' => Comment::paginate(3),
+        ]);
     }
 }

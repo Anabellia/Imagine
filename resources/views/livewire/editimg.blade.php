@@ -3,6 +3,13 @@
 
 <p>Hello from livewire bladea</p>
 
+        <div>
+            @if (session()->has('message'))
+                <div class="alert alert-success">
+                    {{ session('message') }}
+                </div>
+            @endif
+        </div>
     
 
         <form wire:submit.prevent="addComment"  class="container">   
@@ -48,6 +55,8 @@
             </div>
         </div>
     @endforeach
+
+    {{ $comments->links() }}
 
 
 </div>
