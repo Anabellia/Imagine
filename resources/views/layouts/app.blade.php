@@ -21,6 +21,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <livewire:styles />
+    
 </head>
 <body>
     <div id="app">
@@ -82,7 +83,32 @@
             @yield('content')
         </main>
     </div>
+    <!-- ovo commentiram i stavljam ga gore u head - hmmm ovo mi se ne svidja ali jbga ajd probam -->
     <livewire:scripts />
 
+    <!-- -------------------------------------------- -->
+    <!-- Ovaj event je za pics loading - listening for change sa editimage.bleda-->
+    <script>
+        window.livewire.on('fileChoosen', () => {
+            let inputField = document.getElementById('image');
+            let file = inputField.files[0];
+
+            let reader = new FileReader();
+
+            reader.onloadend = () => {
+                window.livewire.emit('fileUpload', reader.result)
+                
+            }
+
+            reader.readAsDataURL(file);
+            
+        })
+    </script>
+
+    <!-- -------------------------------------------- -->
+
 </body>
+
+
+
 </html>

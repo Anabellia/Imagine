@@ -2,15 +2,21 @@
     
 
 <p>Hello from livewire bladea</p>
-
         <div>
             @if (session()->has('message'))
                 <div class="alert alert-success">
                     {{ session('message') }}
                 </div>
             @endif
-        </div>
-    
+        </div>    
+
+        <section>
+            
+            <input type="file" id="image" wire:change="$emit('fileChoosen')">
+                @if($image)
+                <img src="{{$image}}" alt="" width="200" >
+                @endif
+        </section>
 
         <form wire:submit.prevent="addComment"  class="container">   
             <div class="row justify-content-md-center">
@@ -66,3 +72,4 @@
 
 
 </div>
+

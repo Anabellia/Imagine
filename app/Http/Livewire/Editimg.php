@@ -6,6 +6,8 @@ use Livewire\Component;
 use Carbon\Carbon;
 use App\Models\Comment;
 use Livewire\WithPagination;
+use Auth;
+use Livewire\WithFileUploads;
 
 
 class Editimg extends Component
@@ -14,25 +16,25 @@ class Editimg extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $newComment;
-    //public $comments;
 
+    use WithFileUploads;
+    public $image;
+
+    protected $listeners = ['fileUpload' => 'handleFileUpload'];
+
+    public function handleFileUpload($imageData){
+        $this->image = $imageData;
+    }
     
-
-    /* public function mount(){
-
-        $initialComments = Comment::latest()->get();
-        $this->comments = $initialComments;
-        
-    } */
-
     public function updated($newComment)
     {
         $this->validateOnly($newComment, ['newComment' => 'required|max:120']);
     }
 
-    public function addComment(){
+    public function addComment(){        
 
-        $this->validate(['newComment' => 'required|max:120']);
+        if(Auth::user()){
+            $this->validate(['newComment' => 'required|max:120']);
 
         $createdComment = Comment::create(
             [
@@ -41,12 +43,16 @@ class Editimg extends Component
                 'user_id' => auth()->user()->id
             ]);
 
-        //$this->comments->prepend($createdComment);
-
         //to clear text input
         $this->newComment = "";
+        $this->resetPage();
 
         session()->flash('message', 'comment added successfully :)');
+        }
+        else {
+            session()->flash('message', 'you need to be loged in to make comments');
+        }
+        
 
         //Ovo je primer kako mozes da pass array o nekom varu
         /* $this->comments[] = [            
@@ -65,13 +71,15 @@ class Editimg extends Component
         /* Ovde resetujemo commentse da bi izbacili upravo obrisanog */
         //$this->comments = $this->comments->except($commentID);
         //dd($comment);
+        $this->resetPage();
         session()->flash('message', 'comment deleted successfully :)');
+
     }
 
     public function render()
     {
         return view('livewire.editimg', [
-            'comments' => Comment::paginate(3),
+            'comments' => Comment::latest()->simplePaginate(2),
         ]);
     }
 }
