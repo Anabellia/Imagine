@@ -8,6 +8,8 @@ use App\Models\Comment;
 use Livewire\WithPagination;
 use Auth;
 use Livewire\WithFileUploads;
+use Intervention\Image\ImageManagerStatic;
+use Illuminate\Support\Facades\Storage;
 
 
 class Editimg extends Component
@@ -34,13 +36,17 @@ class Editimg extends Component
     public function addComment(){        
 
         if(Auth::user()){
-            $this->validate(['newComment' => 'required|max:120']);
+
+        $this->validate(['newComment' => 'required|max:120']);
+
+        $image = $this->storeImage();
 
         $createdComment = Comment::create(
             [
                 'body' => $this->newComment, 
                 //'user_id' => 1,
-                'user_id' => auth()->user()->id
+                'user_id' => auth()->user()->id,
+                'image' => $image
             ]);
 
         //to clear text input
@@ -73,6 +79,17 @@ class Editimg extends Component
         //dd($comment);
         $this->resetPage();
         session()->flash('message', 'comment deleted successfully :)');
+
+    }
+
+    public function storeImage(){
+
+        if(!$this->image){
+            return null;
+        } 
+
+        $img = ImageManagerStatic::make($this->image)->encode('jpg');
+        Storage::disk('public')->put('image.jpg', $img);
 
     }
 
