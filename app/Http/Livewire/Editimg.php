@@ -10,6 +10,7 @@ use Auth;
 use Livewire\WithFileUploads;
 use Intervention\Image\ImageManagerStatic;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 
 class Editimg extends Component
@@ -51,6 +52,7 @@ class Editimg extends Component
 
         //to clear text input
         $this->newComment = "";
+        $this->image = "";
         $this->resetPage();
 
         session()->flash('message', 'comment added successfully :)');
@@ -73,6 +75,7 @@ class Editimg extends Component
     {
         /* ovde nadjemo commentar iz db po onom sto nam je klick na x u bladeu poslao id od tog commentara */
         $comment = Comment::find($commentID);
+        Storage::disk('public')->delete($comment->image);
         $comment->delete();
         /* Ovde resetujemo commentse da bi izbacili upravo obrisanog */
         //$this->comments = $this->comments->except($commentID);
@@ -84,12 +87,19 @@ class Editimg extends Component
 
     public function storeImage(){
 
+        /* Ako nemamo img return null */
         if(!$this->image){
             return null;
         } 
 
+        /* Ako imamo image: */
+        /* encoded to jpg */
         $img = ImageManagerStatic::make($this->image)->encode('jpg');
-        Storage::disk('public')->put('image.jpg', $img);
+        /* Give it a rand name */
+        $name = Str::random() . '.jpg';
+        /* Store it into public dir */
+        Storage::disk('public')->put($name, $img);
+        return $name;
 
     }
 

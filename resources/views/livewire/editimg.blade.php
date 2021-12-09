@@ -60,7 +60,10 @@
                         </div>
 
                         <h6 class="card-subtitle mb-2 text-muted">{{$comment->created_at->diffForHumans()}}</h6>                    
-                        <p class="card-text">{{$comment->body}}</p>                    
+                        <p class="card-text">{{$comment->body}}</p>  
+                        @if($comment->image)
+                        <img src="{{$comment->imagePath}}" alt="" width="200" >          
+                        @endif        
                     </div>
                 </div>
             </div>
