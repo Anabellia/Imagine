@@ -2,6 +2,17 @@
     
 
 <p>Hello from livewire bladea</p>
+
+                <!-- ---------------- -->
+                <div>          
+                <a href="{{ route('home') }}"><button class="btn btn-info">Dashboard</button></a>
+                
+                </div>   
+                <br>
+
+                <!-- ----------------- -->
+
+
         <div>
             @if (session()->has('message'))
                 <div class="alert alert-success">
@@ -62,6 +73,7 @@
                         <h6 class="card-subtitle mb-2 text-muted">{{$comment->created_at->diffForHumans()}}</h6>                    
                         <p class="card-text">{{$comment->body}}</p>  
                         @if($comment->image)
+                        
                         <img src="{{$comment->imagePath}}" alt="" width="200" >          
                         @endif        
                     </div>

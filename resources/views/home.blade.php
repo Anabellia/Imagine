@@ -16,6 +16,14 @@
 
                     {{ __('You are logged in!') }}
                 </div>
+                <!-- ---------------- -->
+                <div>          
+                <a href="{{ route('image-editor') }}"><button class="btn btn-info">Edit image</button></a>
+                
+                </div>   
+                <br>
+
+                <!-- ----------------- -->
             </div>
         </div>
     </div>

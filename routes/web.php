@@ -20,3 +20,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::get('/image-editor', array('as' => 'image-editor', function()
+{
+   return view('image-editor');
+}));
