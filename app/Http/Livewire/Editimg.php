@@ -23,7 +23,26 @@ class Editimg extends Component
     use WithFileUploads;
     public $image;
 
-    protected $listeners = ['fileUpload' => 'handleFileUpload'];
+    public $imagePropertiesId = 1;
+
+    protected $listeners = [
+        
+            'fileUpload' => 'handleFileUpload',
+
+            //ako imas isto ime funkcije i key value 
+            //'imgPropertieSelected' => 'imgPropertieSelected',
+            //mozes i ovako:
+            'imgPropertieSelected',
+
+
+        ];
+
+    //ovaj imgPropertieId capam from bledea id od selected properties
+    public function imgPropertieSelected($imgPropertiesId){
+
+        $this->imagePropertiesId = $imgPropertiesId;
+
+    }
 
     public function handleFileUpload($imageData){
         $this->image = $imageData;
@@ -47,7 +66,8 @@ class Editimg extends Component
                 'body' => $this->newComment, 
                 //'user_id' => 1,
                 'user_id' => auth()->user()->id,
-                'image' => $image
+                'image' => $image,
+                'image_properties_id' => $this->imagePropertiesId,
             ]);
 
         //to clear text input
@@ -106,7 +126,7 @@ class Editimg extends Component
     public function render()
     {
         return view('livewire.editimg', [
-            'comments' => Comment::latest()->simplePaginate(2),
+            'comments' => Comment::where('image_properties_id', $this->imagePropertiesId)->latest()->simplePaginate(2),
         ]);
     }
 }

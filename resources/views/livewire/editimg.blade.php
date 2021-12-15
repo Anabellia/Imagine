@@ -1,16 +1,9 @@
 <div>
     
 
-<p>Hello from livewire bladea</p>
+<p>Hello from livewire editimg bladea</p>
 
-                <!-- ---------------- -->
-                <div>          
-                <a href="{{ route('home') }}"><button class="btn btn-info">Dashboard</button></a>
                 
-                </div>   
-                <br>
-
-                <!-- ----------------- -->
 
 
         <div>
