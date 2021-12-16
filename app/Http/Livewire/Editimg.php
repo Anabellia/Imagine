@@ -23,15 +23,17 @@ class Editimg extends Component
     use WithFileUploads;
     public $image;
 
-    public $imagePropertiesId = 1;
+    public $imagePropertiesId;
 
     protected $listeners = [
         
             'fileUpload' => 'handleFileUpload',
 
-            //ako imas isto ime funkcije i key value 
-            //'imgPropertieSelected' => 'imgPropertieSelected',
-            //mozes i ovako:
+            /*
+             * ako imas isto ime funkcije i key value 
+             * 'imgPropertieSelected' => 'imgPropertieSelected',
+             *  mozes i ovako:
+             */
             'imgPropertieSelected',
 
 
