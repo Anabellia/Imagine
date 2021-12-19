@@ -86,6 +86,8 @@
     <!-- ovo commentiram i stavljam ga gore u head - hmmm ovo mi se ne svidja ali jbga ajd probam -->
     <livewire:scripts />
 
+
+
     <!-- -------------------------------------------- -->
     <!-- Ovaj event je za pics loading - listening for change sa editimage.bleda-->
     <script>
@@ -103,10 +105,14 @@
             reader.readAsDataURL(file);
             
         })
+
+        
     </script>
 
     <!-- -------------------------------------------- -->
-
+        <!-- Turbolinks scripta da bi ti radilo -->
+    <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js" data-turbolinks-eval="false" data-turbo-eval="false"></script>
+        <!-- End of turbolinks scripta -->
 </body>
 
 
