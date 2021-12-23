@@ -20,8 +20,9 @@
 
     <div class="row">
     <div class="col-1"></div>
-    <div class="col-4"><livewire:imgproperties /></div>
-    <div class="col-6"><livewire:editimg /></div>
+    <div class="col-3"><livewire:imgproperties /></div>
+    <div class="col-3"><livewire:editimg /></div>
+    <div class="col-4"><livewire:img-file-uploader /></div>
     <div class="col-1"></div>
   </div>
         
