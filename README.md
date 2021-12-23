@@ -9,17 +9,53 @@
 
 ## About
 
+Imaginarium is accessible, powerful, and provides tools required for large, robust applications.
 
- is accessible, powerful, and provides tools required for large, robust applications.
+
+## Programing Languages and Frameworks
+
+-Laravel
+-PHP
+-HTML
+-JavaScript
+-Database (MongoDB, MySQL, SQLite... )
+
+## Instalation
+
+# Requirements
+php 7^
+composer
+
+1. clone repository
+    git clone https://github.com/Kelj-menc/StudComm.git
+2. cd into application folder and run
+    
+    composer install
+
+set up database (MongoDB, MySQL, SQLite... )
+rename .env.example into .env and set "database name" as your database name
+next run :
+
+    PHP artisan key:generate
+
+and finally
+
+    php artisan migrate
+
+
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Thank you for considering contributing to the project!
 
 
 ## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to XXX via [cc@imaginarium.com]. All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within this project, please send a message or an e-mail to XXX via [cc@imaginarium.com]. All security vulnerabilities will be promptly inspected and addressed.
+
+## Code of Conduct
+
+The community is welcoming to all. Please review and abide.
 
 ## License
 
