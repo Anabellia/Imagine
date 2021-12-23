@@ -15,25 +15,33 @@ Imaginarium is accessible, powerful, and provides tools required for large, robu
 ## Programing Languages and Frameworks
 
 -Laravel
+
 -PHP
+
 -HTML
+
 -JavaScript
+
 -Database (MongoDB, MySQL, SQLite... )
 
 ## Instalation
 
-# Requirements
-php 7^
-composer
+Requirements: php 7^, composer
 
-1. clone repository
-    git clone https://github.com/Kelj-menc/StudComm.git
-2. cd into application folder and run
+Instalation:
+
+-clone repository in location of your choice, run:
+
+    git clone https://github.com/Anabellia/Imagine.git
+
+-cd into application folder and run
     
     composer install
 
-set up database (MongoDB, MySQL, SQLite... )
-rename .env.example into .env and set "database name" as your database name
+-Set up database (MongoDB, MySQL, SQLite... )
+
+-Rename .env.example into .env and set "database name" as your database name
+
 next run :
 
     PHP artisan key:generate
