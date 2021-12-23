@@ -30,11 +30,12 @@ Requirements: php 7^, composer
 
 Instalation:
 
-- Clone repository in location of your choice, run:
+Clone repository in location of your choice, run:
+
 
     git clone https://github.com/Anabellia/Imagine.git
 
-- Cd into application folder and run
+Cd into application folder and run
     
     composer install
 
