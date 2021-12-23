@@ -27,7 +27,7 @@ Imaginarium will be accessible and powerful set of tools for manipulating files 
 
 ## Instalation
 
-Requirements: php 7^, composer
+Requirements: php ^7.1.3, composer
 
 Instalation:
 
