@@ -9,7 +9,8 @@
 
 ## About
 
-Imaginarium is accessible, powerful, and provides tools required for large, robust applications.
+Plan for now is:
+Imaginarium will be accessible and powerful set of tools for manipulating files like images, mp4-s, txt files, social media posts, PDF-s, excell-s and.
 
 
 ## Programing Languages and Frameworks
