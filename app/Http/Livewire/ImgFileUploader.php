@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Str;
 
 class ImgFileUploader extends Component
 {
@@ -31,12 +32,27 @@ class ImgFileUploader extends Component
             'photo' => 'image|max:1024', // 1MB Max
         ]);
 
-                
-        //u storage ce put novu pics u folder photos / user id
-        $this->photo->store('photos' . '/' .$user->id . '/' );        
+          
+        
+        $path = $this->photo->path();
+        $extension = pathinfo($path, PATHINFO_EXTENSION);
+        /* dd($extension); */
 
+        /* Ako nemamo img return null */
+        if(!$this->photo){
+            return null;
+        } 
+        /* Ako imamo image: */
+        
+        $name = Str::random();
+                        
+        //u storage ce put novu pics u folder photos / user id
+        $this->photo->storeAs('photos' . '/' .$user->id . '/' , $name . '.' .  $extension);
+            
         $this->photo = "";
         session()->flash('mess', 'uploadovanje zavrseno!');
+
+        dd($name . '.' .  $extension);
     }
 
     public function removePhoto(){
