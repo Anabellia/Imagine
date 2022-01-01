@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -25,12 +26,13 @@ class ImgFileUploader extends Component
 
     public function savePhoto()
     {
+        $user   = Auth::user();
         $this->validate([
-            'photo' => 'image|max:1024', // 2MB Max
+            'photo' => 'image|max:1024', // 1MB Max
         ]);
         
-        //u storage ce put novu pics u foldes photos
-        $this->photo->store('photos');
+        //u storage ce put novu pics u folder photos / uder id
+        $this->photo->store('photos' . '/' .$user->id . '/' );
 
         $this->photo = "";
         session()->flash('mess', 'uploadovanje zavrseno!');
@@ -42,12 +44,13 @@ class ImgFileUploader extends Component
 
     public function savePhotos()
     {
+        $user   = Auth::user();
         $this->validate([
             'photos.*' => 'image|max:1024', // 1MB Max
         ]);
  
         foreach ($this->photos as $photo) {
-            $photo->store('photos');
+            $photo->store('photos' . '/' .$user->id . '/' );
         }
 
         $this->photos = [];
