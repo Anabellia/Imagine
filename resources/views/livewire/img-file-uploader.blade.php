@@ -2,71 +2,93 @@
     <p>Hello from img-file-uploader bledea</p>
 
     <hr>
+    <!-- =============================================================================== -->
+    <!-- container za singe image: levo mislim properties of image a desno sam image za obradu -->
+    <!-- =============================================================================== -->
+    <div class="container">
+        <div class="row">
+        <div class="col-1"></div>
 
-    <h3>Singe photo uploading</h3>
-    
-        <form wire:submit.prevent="savePhoto">
-            @error('photo')
-                <h4> 
-                    <span class="error text-danger font-weight-normal" >{{ $message }}</span> 
-                </h4> 
-            @enderror
+        <div class="col-3">
+            <h3>Singe photo uploading</h3>            
+            <form wire:submit.prevent="savePhoto">
+                        @error('photo')
+                            <h4> 
+                                <span class="error text-danger font-weight-normal" >{{ $message }}</span> 
+                            </h4> 
+                        @enderror
 
-            <!-- Success upload message -->
-            <div>
-                @if (session()->has('mess'))
-                    <div class="alert alert-success">
-                        {{ session('mess') }}
+                        <!-- Success upload message -->
+                        <div>
+                            @if (session()->has('mess'))
+                                <div class="alert alert-success">
+                                    {{ session('mess') }}
+                                </div>
+                            @endif
+                        </div>
+
+                        @if($photo)
+                                <!-- Iconica x -->            
+                                        <!-- Ovaj comment id kako je se dobio je 
+                                        interesantan ako hoces da capis nesto iz bledea mora biti double bracess
+                                        A ovaj fas fa-times je iconica iz fontawesome!!!
+                                        -->                                      
+                                        <i wire:click="removePhoto"                                         
+                                            class="fas fa-times-circle fa-2x" 
+                                            onmouseover="this.style.color='red'" 
+                                            onmouseout="this.style.color='grey'" 
+                                            style="cursor: pointer; color: grey" ></i>                                                        
+                                <!--kraj za Iconica x -->                    
+                                <img src="{{ $photo->temporaryUrl() }}"  alt="" width="200" >
+                                <button type="submit">Save Photo</button>
+                        @endif
+
+                    <div>
+                        <!-- 100mb = 100000000 ; 1mb=1000000 -->
+                        <input type="file" 
+                            onchange="if(!this.files[0].name.match(/.(jpg|jpeg|gif|png|bmp|svg|svgz|cgm|djv|djvu|ico|ief|jpe|pbm|pgm|pnm|ppm|ras|rgb|tif|tiff|wbmp|xbm|xpm|xwd)$/i))
+                                        {alert('not an image');}
+                                      else if(this.files[0].size > '10000000'){ 
+                                        event.stopImmediatePropagation();                    
+                                        alert('File uploads cannot be larger than 1MB.');
+                                        this.form.reset();
+                                        }" 
+                            wire:model="photo" />
                     </div>
-                @endif
-            </div>
 
-            @if ($photo)
+                            <!-- Ovo sta znam mozda ti zatreba pa ostavljam ispise text dok nesto radi -->
+                            <!-- <div wire:loading wire:target="photo">Uploading...</div>
 
-                            <!-- Iconica x -->            
-                                    <!-- Ovaj comment id kako je se dobio je 
-                                    interesantan ako hoces da capis nesto iz bledea mora biti double bracess
-                                    A ovaj fas fa-times je iconica iz fontawesome!!!
-                                    -->                                            
-                                    <i wire:click="removePhoto"                                         
-                                        class="fas fa-times-circle" 
-                                        onmouseover="this.style.color='red'" 
-                                        onmouseout="this.style.color='grey'" 
-                                        style="cursor: pointer; color: grey" ></i>                                                        
-                            <!--kraj za Iconica x -->
-                
-                <img src="{{ $photo->temporaryUrl() }}"  alt="" width="200" >
+                            <div wire:loading wire:target="savePhoto">Saving photo...</div> -->
+                            <br>
 
-                <button type="submit">Save Photo</button>
-            @endif
+                        
 
-                <div>
-                    <!-- 100mb = 100000000 ; 1mb=1000000 -->
-                    <input type="file" 
-                        onchange="if(this.files[0].size > '10000000'){ 
-                            event.stopImmediatePropagation();                    
-                            alert('File uploads cannot be larger than 1MB.');
-                            this.form.reset();
-                        }" 
-                        wire:model="photo" />
-                </div>
-    
-                        <!-- Ovo sta znam mozda ti zatreba pa ostavljam ispise text dok nesto radi -->
-                        <!-- <div wire:loading wire:target="photo">Uploading...</div>
+                </form>
 
-                        <div wire:loading wire:target="savePhoto">Saving photo...</div> -->
-                        <br>
 
-                    
+        </div>
+        <div class="col-7">
 
-        </form>
-
-    
+            <!-- Sama photografija ovde -->
+            <p>Photo here</p>
+        </div>    
+        <div class="col-1"></div>
+    </div>   
 
     <!-- --------------------------------------------------------------------------------- -->
     <hr>
-    <h3>multiple photos uploading</h3>
 
+    <!-- =============================================================================== -->
+    <!-- container za singe image: levo mislim properties of image a desno sam image za obradu -->
+    <!-- =============================================================================== -->
+    <div class="container">
+
+
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-5">
+                <h3>multiple photos uploading</h3>
     
         <form wire:submit.prevent="savePhotos">
 
@@ -96,7 +118,7 @@
                                 A ovaj fas fa-times je iconica iz fontawesome!!!
                                 -->                                            
                                 <i wire:click="remove({{$loop->index}})"                                         
-                                    class="fas fa-times-circle" 
+                                    class="fas fa-times-circle fa-2x" 
                                     onmouseover="this.style.color='red'" 
                                     onmouseout="this.style.color='grey'" 
                                     style="cursor: pointer; color: grey" ></i>                                                        
@@ -126,11 +148,21 @@
                         wire:model="photos" multiple />
                 </div>
 
-        <!-- Ovo sta znam mozda ti zatreba pa ostavljam ispise text dok nesto radi -->
-        <!-- Idikators showing progress -->
-        <!-- <div wire:loading wire:target="photos">Uploading...</div>
-            <div wire:loading wire:target="savePhotos">Saving photo...</div> -->
+                    <!-- Ovo sta znam mozda ti zatreba pa ostavljam ispise text dok nesto radi -->
+                    <!-- Idikators showing progress -->
+                    <!-- <div wire:loading wire:target="photos">Uploading...</div>
+                        <div wire:loading wire:target="savePhotos">Saving photo...</div> -->
     
     </form>
+
+
+                </div>
+                <div class="col-5">
+                            <!-- photografije ovde -->
+                            <p>multiple Photos here</p>
+                </div>    
+                <div class="col-1"></div>
+            </div>
+    
 
 </div>

@@ -30,9 +30,10 @@ class ImgFileUploader extends Component
         $this->validate([
             'photo' => 'image|max:1024', // 1MB Max
         ]);
-        
-        //u storage ce put novu pics u folder photos / uder id
-        $this->photo->store('photos' . '/' .$user->id . '/' );
+
+                
+        //u storage ce put novu pics u folder photos / user id
+        $this->photo->store('photos' . '/' .$user->id . '/' );        
 
         $this->photo = "";
         session()->flash('mess', 'uploadovanje zavrseno!');
