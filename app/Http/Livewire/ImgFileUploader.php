@@ -28,31 +28,35 @@ class ImgFileUploader extends Component
     public function savePhoto()
     {
         $user   = Auth::user();
+
+        /* Validate da je photografija manja od 1mb - 
+        ovo sam morao heavi da potkrepim u blade posto je
+         ova validacija crap ali ostavljam je */
         $this->validate([
             'photo' => 'image|max:1024', // 1MB Max
-        ]);
-
-          
+        ]);          
         
-        $path = $this->photo->path();
-        $extension = pathinfo($path, PATHINFO_EXTENSION);
-        /* dd($extension); */
-
         /* Ako nemamo img return null */
         if(!$this->photo){
             return null;
         } 
+
         /* Ako imamo image: */
-        
+        /* grab temp img path */
+        $path = $this->photo->path();
+        /* grab extension from path */
+        $extension = pathinfo($path, PATHINFO_EXTENSION);
+        /* generate rand name */
         $name = Str::random();
                         
-        //u storage ce put novu pics u folder photos / user id
+        //u storage put novu pics u folder photos / user id / randomName.extension 
         $this->photo->storeAs('photos' . '/' .$user->id . '/' , $name . '.' .  $extension);
             
+        /* clear photo var */
         $this->photo = "";
         session()->flash('mess', 'uploadovanje zavrseno!');
 
-        dd($name . '.' .  $extension);
+        /* dd($name . '.' .  $extension); */
     }
 
     public function removePhoto(){
