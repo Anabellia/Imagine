@@ -61,17 +61,25 @@
 
                             <div wire:loading wire:target="savePhoto">Saving photo...</div> -->
                             <br>
-
-                        
-
                 </form>
-
-
         </div>
-        <div class="col-7">
 
-            <!-- Sama photografija ovde -->
-            <p>Photo here</p>
+        <!-- ------------------------------------------------------------ -->
+        <!-- Sama photografija ovde -->
+        <div class="col-7">
+        
+        <div class="card text-dark bg-light mb-3">
+            
+            <div class="card-body">
+                <h5 class="card-title">Photo here</h5>
+                     {{ $imageUDb}}          
+                     
+            </div>
+        </div>
+        <!-- ------------------------------------------------------------- -->
+
+            
+            
         </div>    
         <div class="col-1"></div>
     </div>   

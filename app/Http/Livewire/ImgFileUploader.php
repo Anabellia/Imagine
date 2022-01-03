@@ -6,6 +6,7 @@ use Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
+use App\Models\ImageProperties;
 
 class ImgFileUploader extends Component
 {
@@ -13,6 +14,8 @@ class ImgFileUploader extends Component
 
     //single pic upload
     public $photo;
+    //stored image u db
+    public $imageUDb;
 
     //za multiple uploads
     public $photos = [];
@@ -27,7 +30,7 @@ class ImgFileUploader extends Component
 
     public function savePhoto()
     {
-        $user   = Auth::user();
+        
 
         /* Validate da je photografija manja od 1mb - 
         ovo sam morao heavi da potkrepim u blade posto je
@@ -42,13 +45,31 @@ class ImgFileUploader extends Component
         } 
 
         /* Ako imamo image: */
+
+        
+
+        /* grab user id */
+        $user   = Auth::user();
         /* grab temp img path */
         $path = $this->photo->path();
         /* grab extension from path */
         $extension = pathinfo($path, PATHINFO_EXTENSION);
         /* generate rand name */
         $name = Str::random();
-                        
+
+        /* ------------------------------------------ */
+        /* Put it in a db for first */
+        $this->imageUDb = ImageProperties::create(
+            [
+                'image_name' => $name, 
+                //'user_id' => 1,
+                'user_id' => auth()->user()->id,
+                'path' => 'photos' . '/' .$user->id . '/' . $name . '.' .  $extension,
+                'extension' => $extension,
+            ]);
+        /* ------------------------------------------ */
+        $this->imageUDb = $this->imageUDb->path;
+        // dd($this->imageUDb);               
         //u storage put novu pics u folder photos / user id / randomName.extension 
         $this->photo->storeAs('photos' . '/' .$user->id . '/' , $name . '.' .  $extension);
             
