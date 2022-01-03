@@ -64,7 +64,7 @@ class ImgFileUploader extends Component
                 'image_name' => $name, 
                 //'user_id' => 1,
                 'user_id' => auth()->user()->id,
-                'path' => 'photos' . '/' .$user->id . '/' . $name . '.' .  $extension,
+                'path' => '/' .$user->id . '/' . $name . '.' .  $extension,
                 'extension' => $extension,
             ]);
         /* ------------------------------------------ */
