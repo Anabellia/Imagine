@@ -57,6 +57,9 @@ class ImgFileUploader extends Component
         /* generate rand name */
         $name = Str::random();
 
+        //u storage put novu pics u folder photos / user id / randomName.extension 
+        $fuck = $this->photo->storeAs('photos' . '/' .$user->id . '/' , $name . '.' .  $extension);
+
         /* ------------------------------------------ */
         /* Put it in a db for first */
         $this->imageUDb = ImageProperties::create(
@@ -64,20 +67,19 @@ class ImgFileUploader extends Component
                 'image_name' => $name, 
                 //'user_id' => 1,
                 'user_id' => auth()->user()->id,
-                'path' => '/' .$user->id . '/' . $name . '.' .  $extension,
+                'path' => $fuck,
                 'extension' => $extension,
             ]);
         /* ------------------------------------------ */
         $this->imageUDb = $this->imageUDb->path;
         // dd($this->imageUDb);               
-        //u storage put novu pics u folder photos / user id / randomName.extension 
-        $this->photo->storeAs('photos' . '/' .$user->id . '/' , $name . '.' .  $extension);
-            
+        
+            //dd($fuck);
         /* clear photo var */
         $this->photo = "";
         session()->flash('mess', 'uploadovanje zavrseno!');
 
-        /* dd($name . '.' .  $extension); */
+        /*  */
     }
 
     public function removePhoto(){

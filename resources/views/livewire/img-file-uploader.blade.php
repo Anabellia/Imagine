@@ -72,9 +72,8 @@
             
             <div class="card-body">
                 <h5 class="card-title">Photo here</h5>
-                     {{ $imageUDb}}   
-                         
-                     <img src="{{ asset('storage/photos'. $imageUDb)}} " />
+                                             
+                     <img src="{{ asset($imageUDb)}} " />
                      
             </div>
         </div>
