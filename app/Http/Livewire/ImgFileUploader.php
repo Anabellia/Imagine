@@ -82,6 +82,11 @@ class ImgFileUploader extends Component
         /*  */
     }
 
+    public function mount(){
+        $loadPic = ImageProperties::where('user_id', (auth()->user()->id))->latest()->first();   
+        $this->imageUDb = $loadPic->path;  
+    }
+
     public function removePhoto(){
         $this->reset();
     }
