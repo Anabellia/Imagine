@@ -16,6 +16,7 @@ class CreateImagePropertiesTable extends Migration
         Schema::create('image_properties', function (Blueprint $table) {
             $table->id();            
             $table->string('image_name')->nullable();
+            $table->string('image_editing_name')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->string('path')->nullable();;
             $table->string('extension')->nullable();;

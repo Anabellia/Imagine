@@ -1,6 +1,8 @@
 <div>
     <p>Hello from img-file-uploader bledea</p>
 
+    
+
     <hr>
     <!-- =============================================================================== -->
     <!-- container za singe image: levo mislim properties of image a desno sam image za obradu -->
@@ -18,6 +20,12 @@
                             </h4> 
                         @enderror
 
+                        @error('newImgEditName')
+                            <h4> 
+                                <span class="error text-danger font-weight-normal" >{{ $message }}</span> 
+                            </h4> 
+                        @enderror
+
                         <!-- Success upload message -->
                         <div>
                             @if (session()->has('mess'))
@@ -26,6 +34,10 @@
                                 </div>
                             @endif
                         </div>
+                                
+                                <div>
+                                    <input wire:model.debounce.500ms="newImgEditName" type="text" class="form-control" placeholder="Image Edit Name" >
+                                </div>
 
                         @if($photo)
                                 <!-- Iconica x -->            
@@ -43,6 +55,10 @@
                                 <button type="submit">Save Photo</button>
                         @endif
 
+                    <!-- Image Edit Name --> 
+                    
+                    @if(!$photo)
+                    <!-- Picture uploading -->
                     <div>
                         <!-- 100mb = 100000000 ; 1mb=1000000 -->
                         <input type="file" 
@@ -55,6 +71,7 @@
                                         }" 
                             wire:model="photo" />
                     </div>
+                    @endif
 
                             <!-- Ovo sta znam mozda ti zatreba pa ostavljam ispise text dok nesto radi -->
                             <!-- <div wire:loading wire:target="photo">Uploading...</div>
@@ -64,19 +81,17 @@
                 </form>
         </div>
 
-        <!-- ------------------------------------------------------------ -->
+
         <!-- Sama photografija ovde -->
-        <div class="col-7">
+        <!-- ------------------------------------------------------------ -->
         
-        <div class="card text-dark bg-light mb-3">
-            
-            <div class="card-body">
-                <h5 class="card-title">Photo here</h5>
-                                             
-                     <img src="{{ asset($imageUDb)}}" alt="" width="200" />
-                     
+        
+        <div class="col-7">
+
+            <div><p>@if($title)Title: {{$title}} @else Utitled @endif</p></div>
+            <div>
+                <img src="{{ asset($imageUDb)}}" class="img-fluid" alt="Responsive image" width="200">
             </div>
-        </div>
         <!-- ------------------------------------------------------------- -->
 
             

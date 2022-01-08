@@ -1,10 +1,5 @@
 <div>
-    
-
-<p>Hello from livewire editimg bladea</p>
-
-                
-
+    <p>Hello from livewire editimg bladea</p>   
 
         <div>
             @if (session()->has('message'))
@@ -14,14 +9,15 @@
             @endif
         </div>    
 
-        <section>
-            
+        <!-- Show image -->
+        <section>            
             <input type="file" id="image" wire:change="$emit('fileChoosen')">
                 @if($image)
                 <img src="{{$image}}" alt="" width="200" >
                 @endif
         </section>
 
+        <!-- Form za new comment plus image -->
         <form wire:submit.prevent="addComment"  class="container">   
             <div class="row justify-content-md-center">
                 @error('newComment') <h4> <span class="error text-danger font-weight-normal" >{{ $message }}</span> </h4> @enderror

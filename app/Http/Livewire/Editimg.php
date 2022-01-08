@@ -28,15 +28,12 @@ class Editimg extends Component
     protected $listeners = [
         
             'fileUpload' => 'handleFileUpload',
-
             /*
              * ako imas isto ime funkcije i key value 
              * 'imgPropertieSelected' => 'imgPropertieSelected',
              *  mozes i ovako:
              */
             'imgPropertieSelected',
-
-
         ];
 
     //ovaj imgPropertieId capam from bledea id od selected properties

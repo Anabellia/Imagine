@@ -12,6 +12,9 @@ class ImgFileUploader extends Component
 {
     use WithFileUploads;
 
+    //Name of single photo editing design
+    public $newImgEditName;
+    public $title;
     //single pic upload
     public $photo;
     //stored image u db
@@ -25,29 +28,28 @@ class ImgFileUploader extends Component
         //IMAS VALIDACIJU I NA BLADE FILEU PRE TEMP UPLOADA!!
         $this->validate([
             'photo' => 'image|max:1024', // 1MB Max
+            
         ]);
     }
 
     public function savePhoto()
-    {
-        
-
+    {      
         /* Validate da je photografija manja od 1mb - 
         ovo sam morao heavi da potkrepim u blade posto je
          ova validacija crap ali ostavljam je */
+        
         $this->validate([
             'photo' => 'image|max:1024', // 1MB Max
-        ]);          
-        
+            //'newImgEditName' => 'unique:image_properties,image_editing_name',
+        ]);
+
         /* Ako nemamo img return null */
         if(!$this->photo){
             return null;
         } 
 
         /* Ako imamo image: */
-
         
-
         /* grab user id */
         $user   = Auth::user();
         /* grab temp img path */
@@ -58,7 +60,7 @@ class ImgFileUploader extends Component
         $name = Str::random();
 
         //u storage put novu pics u folder photos / user id / randomName.extension 
-        $fuck = $this->photo->storeAs('photos' . '/' .$user->id . '/' , $name . '.' .  $extension);
+        $fuck = $this->photo->storeAs('photos' . '/' .$user->id , $name . '.' .  $extension);
 
         /* ------------------------------------------ */
         /* Put it in a db for first */
@@ -69,14 +71,16 @@ class ImgFileUploader extends Component
                 'user_id' => auth()->user()->id,
                 'path' => $fuck,
                 'extension' => $extension,
+                'image_editing_name' => $this->newImgEditName,
             ]);
         /* ------------------------------------------ */
         $this->imageUDb = $this->imageUDb->path;
-        // dd($this->imageUDb);               
-        
+        //dd($this->newImgEditName);               
+        $this->title = $this->newImgEditName;
             //dd($fuck);
         /* clear photo var */
         $this->photo = "";
+        $this->newImgEditName = "";
         session()->flash('mess', 'uploadovanje zavrseno!');
 
         /*  */
@@ -84,7 +88,11 @@ class ImgFileUploader extends Component
 
     public function mount(){
         $loadPic = ImageProperties::where('user_id', (auth()->user()->id))->latest()->first();   
-        $this->imageUDb = $loadPic->path;  
+        if($loadPic){
+            $this->imageUDb = $loadPic->path; 
+            $this->title = $loadPic->image_editing_name;
+        }
+         
     }
 
     public function removePhoto(){
