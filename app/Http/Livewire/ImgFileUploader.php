@@ -17,21 +17,11 @@ class ImgFileUploader extends Component
     public $title;
     //single pic upload
     public $photo;
-    //dropFile test
-    public $fileUpload;
     //stored image u db
     public $imageUDb;
 
     //za multiple uploads
-    public $photos = [];
-
-    protected $listeners = [
-        'fileUpload'     => 'fileDropped',
-    ];
-
-    public function fileDropped($imageData){
-        dd($imageData);
-    }
+    public $photos = [];    
 
     public function updatedPhoto()
     {
@@ -59,7 +49,7 @@ class ImgFileUploader extends Component
         } 
 
         /* Ako imamo image: */
-        
+        //dd($this->newImgEditName);
         /* grab user id */
         $user   = Auth::user();
         /* grab temp img path */
@@ -91,7 +81,8 @@ class ImgFileUploader extends Component
         /* clear photo var */
         $this->photo = "";
         $this->newImgEditName = "";
-        session()->flash('mess', 'uploadovanje zavrseno!');
+        session()->flash('mess', 'Image successfully uploaded!');
+        
 
         /*  */
     }
@@ -112,8 +103,12 @@ class ImgFileUploader extends Component
 
     /* da se sjebe sve na pocetak solo image editing */
     public function discharge(){
-        ImageProperties::where('user_id', (auth()->user()->id))->where('path', $this->imageUDb)->delete();   
-        $this->reset();
+        ImageProperties::where('user_id', (auth()->user()->id))->where('path', $this->imageUDb)->delete();  
+        $this->imageUDb = ""; 
+        $this->title = "";
+        $this->render();
+        
+        
         /* dd($test); */
     }
 

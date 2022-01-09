@@ -13,31 +13,12 @@
             <h3>Singe photo uploading</h3>            
             <form wire:submit.prevent="savePhoto">
                         @error('photo')
-                            <h4> 
-                                <span class="error text-danger font-weight-normal" >{{ $message }}</span> 
-                            </h4> 
+                            <h4><span class="error text-danger font-weight-normal" >{{ $message }}</span></h4> 
                         @enderror
-
-                        @error('newImgEditName')
-                            <h4> 
-                                <span class="error text-danger font-weight-normal" >{{ $message }}</span> 
-                            </h4> 
-                        @enderror
-
-                        <!-- Success upload message -->
-                        <div>
-                            @if (session()->has('mess'))
-                                <div class="alert alert-success">
-                                    {{ session('mess') }}
-                                </div>
-                            @endif
-                        </div>
-                                
-                                <div>
-                                    <input wire:model.debounce.500ms="newImgEditName" type="text" class="form-control" placeholder="Image Edit Name" >
-                                </div>
-
-                        @if($photo)
+                        
+                        
+                        
+                        @if($photo)                                
                                 <!-- Iconica x -->            
                                         <!-- Ovaj comment id kako je se dobio je 
                                         interesantan ako hoces da capis nesto iz bledea mora biti double bracess
@@ -50,6 +31,9 @@
                                             style="cursor: pointer; color: grey" ></i>                                                        
                                 <!--kraj za Iconica x -->                    
                                 <img src="{{ $photo->temporaryUrl() }}"  alt="" width="200" >
+                                <div>
+                                <input wire:model.debounce.500ms="newImgEditName" type="text" placeholder="Image Edit Name" >
+                            </div>
                                 <button type="submit">Save Photo</button>
                         @endif
 
@@ -59,7 +43,12 @@
                     <!-- Picture uploading -->
                     <div>
                         <!-- 100mb = 100000000 ; 1mb=1000000 -->
-                        <input type="file" 
+                        <label for="img" class="btn btn-info">Upload Image</label>
+                        
+
+
+
+                        <input type="file" id="img" style="display:none"
                             onchange="if(!this.files[0].name.match(/.(jpg|jpeg|gif|png|bmp|svg|svgz|cgm|djv|djvu|ico|ief|jpe|pbm|pgm|pnm|ppm|ras|rgb|tif|tiff|wbmp|xbm|xpm|xwd)$/i))
                                         {alert('not an image');}
                                       else if(this.files[0].size > '10000000'){ 
@@ -77,6 +66,8 @@
                             <div wire:loading wire:target="savePhoto">Saving photo...</div> -->
                             <br>
                 </form>
+
+                
         </div>
 
 
@@ -86,20 +77,34 @@
         <div class="col-7">
             <div>
                 <p>@if($title)Title: {{$title}} @else Untitled @endif</p>
+                <!-- Success upload message alert-->
+                <div>
+                            @if(session()->has('mess'))
+                                <div class="alert alert-success">                                    
+                                    {{ session('mess') }}
+                                </div>
+
+                                <script>
+                                    var timeout = 3000; // in miliseconds (3*1000)
+                                    $('.alert').delay(timeout).fadeOut(500);
+                                </script>
+                            @endif
+                        </div>
             </div>
             @if($imageUDb)
             <div>
                 <img src="{{ asset($imageUDb)}}" id="placeholder" class="img-fluid" alt="Responsive image" width="200">
-            </div>            
+            </div>    
+            <!-- Buttons za Save/Download/Discharge -->
+            <button wire:click="discharge">Close</button>        
             @else
-            <!-- Probam drag and drop here -->
+            <!-- ovde bih voleo da probam drag and drop here -->
             <div>
-                <img src="{{ asset('photos\ImgPlaceholder\placeholder.png')}}" class="img-fluid" alt="Responsive image" width="400">
+                <img src="{{ asset('photos\ImgPlaceholder\placeholder.png')}}" class="img-fluid" alt="2Responsive image" width="400">
             </div>
             @endif
 
-            <!-- Buttons za Save/Download/Discharge -->
-            <button wire:click="discharge">Close</button>
+            
 
         </div>   
         
