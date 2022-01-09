@@ -1,7 +1,5 @@
 <div>
-    <p>Hello from img-file-uploader bledea</p>
-
-    
+    <p>Hello from img-file-uploader bledea</p>   
 
     <hr>
     <!-- =============================================================================== -->
@@ -83,20 +81,28 @@
 
 
         <!-- Sama photografija ovde -->
-        <!-- ------------------------------------------------------------ -->
-        
+        <!-- ------------------------------------------------------------ -->       
         
         <div class="col-7">
-
-            <div><p>@if($title)Title: {{$title}} @else Utitled @endif</p></div>
             <div>
-                <img src="{{ asset($imageUDb)}}" class="img-fluid" alt="Responsive image" width="200">
+                <p>@if($title)Title: {{$title}} @else Untitled @endif</p>
             </div>
-        <!-- ------------------------------------------------------------- -->
+            @if($imageUDb)
+            <div>
+                <img src="{{ asset($imageUDb)}}" id="placeholder" class="img-fluid" alt="Responsive image" width="200">
+            </div>            
+            @else
+            <!-- Probam drag and drop here -->
+            <div>
+                <img src="{{ asset('photos\ImgPlaceholder\placeholder.png')}}" class="img-fluid" alt="Responsive image" width="400">
+            </div>
+            @endif
 
-            
-            
-        </div>    
+            <!-- Buttons za Save/Download/Discharge -->
+            <button wire:click="discharge">Close</button>
+
+        </div>   
+        
         <div class="col-1"></div>
     </div>   
 
@@ -107,7 +113,6 @@
     <!-- container za singe image: levo mislim properties of image a desno sam image za obradu -->
     <!-- =============================================================================== -->
     <div class="container">
-
 
             <div class="row">
                 <div class="col-1"></div>

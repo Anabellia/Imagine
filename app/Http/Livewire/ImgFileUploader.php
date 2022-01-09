@@ -17,11 +17,21 @@ class ImgFileUploader extends Component
     public $title;
     //single pic upload
     public $photo;
+    //dropFile test
+    public $fileUpload;
     //stored image u db
     public $imageUDb;
 
     //za multiple uploads
     public $photos = [];
+
+    protected $listeners = [
+        'fileUpload'     => 'fileDropped',
+    ];
+
+    public function fileDropped($imageData){
+        dd($imageData);
+    }
 
     public function updatedPhoto()
     {
@@ -95,10 +105,19 @@ class ImgFileUploader extends Component
          
     }
 
+    /* Reset formu da moze se ponovo druga upload */
     public function removePhoto(){
         $this->reset();
     }
 
+    /* da se sjebe sve na pocetak solo image editing */
+    public function discharge(){
+        ImageProperties::where('user_id', (auth()->user()->id))->where('path', $this->imageUDb)->delete();   
+        $this->reset();
+        /* dd($test); */
+    }
+
+    /* Za multiple photos */
     public function savePhotos()
     {
         $user   = Auth::user();
@@ -114,6 +133,7 @@ class ImgFileUploader extends Component
         session()->flash('message', 'uploadovanje zavrseno!');
     }
 
+    /* Removing pojedine photose kad je multiple upload u pitanju */
     public function remove($index){
         array_splice($this->photos, $index, 1);
     }
