@@ -59,7 +59,15 @@
                             wire:model="photo" />
                     </div>
                     @endif
-
+                            
+                    @if($imageUDb)
+                    
+                        <h3>Image properties:</h3>
+                        <p>extension: {{$ext}}</p>
+                        <p>width: {{$width}}</p>
+                        <p>height: {{$height}}</p>
+                        
+                    @endif
                             <!-- Ovo sta znam mozda ti zatreba pa ostavljam ispise text dok nesto radi -->
                             <!-- <div wire:loading wire:target="photo">Uploading...</div>
 
@@ -84,7 +92,7 @@
                             <div class="alert alert-success">                                    
                                 {{ session('mess') }}
                             </div>
-                            
+
                             <script>
                                 var timeout = 3000; // in miliseconds (3*1000)
                                 $('.alert').delay(timeout).fadeOut(500);
@@ -97,7 +105,8 @@
                 <img src="{{ asset($imageUDb)}}" id="placeholder" class="img-fluid" alt="Responsive image" width="200">
             </div>    
             <!-- Buttons za Save/Download/Discharge -->
-            <button wire:click="discharge">Close</button>        
+            <br>
+            <div><button wire:click="discharge">Close</button></div>
             @else
             <!-- ovde bih voleo da probam drag and drop here -->
             <div>

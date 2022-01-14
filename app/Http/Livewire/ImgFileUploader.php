@@ -7,6 +7,8 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
 use App\Models\ImageProperties;
+// import the Intervention Image Manager Class
+use Intervention\Image\ImageManagerStatic;
 
 class ImgFileUploader extends Component
 {
@@ -19,6 +21,10 @@ class ImgFileUploader extends Component
     public $photo;
     //stored image u db
     public $imageUDb;
+    
+    public $ext;
+    public $width;
+    public $height;
 
     //za multiple uploads
     public $photos = [];    
@@ -60,7 +66,7 @@ class ImgFileUploader extends Component
         $name = Str::random();
 
         //u storage put novu pics u folder photos / user id / randomName.extension 
-        $fuck = $this->photo->storeAs('photos' . '/' .$user->id , $name . '.' .  $extension);
+        $storePath = $this->photo->storeAs('photos' . '/' .$user->id , $name . '.' .  $extension);
 
         /* ------------------------------------------ */
         /* Put it in a db for first */
@@ -69,7 +75,7 @@ class ImgFileUploader extends Component
                 'image_name' => $name, 
                 //'user_id' => 1,
                 'user_id' => auth()->user()->id,
-                'path' => $fuck,
+                'path' => $storePath,
                 'extension' => $extension,
                 'image_editing_name' => $this->newImgEditName,
             ]);
@@ -79,6 +85,22 @@ class ImgFileUploader extends Component
         $this->title = $this->newImgEditName;
             //dd($fuck);
         /* clear photo var */
+        $interImage = ImageManagerStatic::make($this->imageUDb);
+        $this->ext = $interImage->extension;
+        $this->width = $interImage->width();
+        $this->height = $interImage->height();
+        $exif = ImageManagerStatic::make($this->imageUDb)->exif();
+
+
+        dd($exif);
+        
+
+        /* 'Image extension: ' $interImage->extension . 
+            ' mime type: ' . $interImage->mime . 
+            ' width: ' . $interImage->width() . 
+            ' height: ' . $interImage->height()
+         */
+        //dd($pics->width());
         $this->photo = "";
         $this->newImgEditName = "";
         session()->flash('mess', 'Image successfully uploaded!');
