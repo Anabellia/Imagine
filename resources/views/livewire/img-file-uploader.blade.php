@@ -77,19 +77,20 @@
         <div class="col-7">
             <div>
                 <p>@if($title)Title: {{$title}} @else Untitled @endif</p>
-                <!-- Success upload message alert-->
-                <div>
-                            @if(session()->has('mess'))
-                                <div class="alert alert-success">                                    
-                                    {{ session('mess') }}
-                                </div>
-
-                                <script>
-                                    var timeout = 3000; // in miliseconds (3*1000)
-                                    $('.alert').delay(timeout).fadeOut(500);
-                                </script>
-                            @endif
-                        </div>
+                <!-- OVO JE MESSAGE KOJI NESTANE POSLE 3 S!!! 
+                    Success upload message alert -->
+                    <div>
+                        @if(session()->has('mess'))
+                            <div class="alert alert-success">                                    
+                                {{ session('mess') }}
+                            </div>
+                            
+                            <script>
+                                var timeout = 3000; // in miliseconds (3*1000)
+                                $('.alert').delay(timeout).fadeOut(500);
+                            </script>
+                        @endif
+                    </div>
             </div>
             @if($imageUDb)
             <div>
