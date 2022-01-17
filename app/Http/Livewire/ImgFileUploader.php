@@ -92,7 +92,7 @@ class ImgFileUploader extends Component
         $exif = ImageManagerStatic::make($this->imageUDb)->exif();
 
 
-        dd($exif);
+        //dd($exif);
         
 
         /* 'Image extension: ' $interImage->extension . 

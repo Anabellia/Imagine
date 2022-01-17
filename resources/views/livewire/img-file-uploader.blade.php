@@ -101,8 +101,8 @@
                     </div>
             </div>
             @if($imageUDb)
-            <div>
-                <img src="{{ asset($imageUDb)}}" id="placeholder" class="img-fluid" alt="Responsive image" width="200">
+            <div style="text-align:center">
+                <img style="max-height:400px;"  src="{{ asset($imageUDb)}}" id="placeholder" class="img-fluid">
             </div>    
             <!-- Buttons za Save/Download/Discharge -->
             <br>
