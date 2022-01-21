@@ -18,6 +18,22 @@
     <!-- Font koji je u stvari icone FONTAWESOME -->
     <script src="https://kit.fontawesome.com/08d6af9d9e.js" crossorigin="anonymous"></script>
 
+    <!-- CROPPER.JS da moz crop photo -->
+    <!-- VAZNO VAZAN JE I REDOSLED OVIH ISPOD!! -->  
+    
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" </script> -->
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script> -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/2.0.0-alpha.2/cropper.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/2.0.0-alpha.2/cropper.min.css" rel="stylesheet" type="text/css">
+    
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <livewire:styles />
@@ -110,9 +126,75 @@
     </script>
 
     <!-- -------------------------------------------- -->
-        <!-- Turbolinks scripta da bi ti radilo -->
-    <!-- <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js" data-turbolinks-eval="false" data-turbo-eval="false"></script> -->
-        <!-- End of turbolinks scripta -->
+        <!-- cropper.js start -->
+        
+        <script>
+            var bs_modal = $('#modal');
+            var image = document.getElementById('image');
+            var cropper,reader,file;        
+
+            $("body").on("change", ".image", function(e) {
+                var files = e.target.files;
+                var done = function(url) {
+                    image.src = url;
+                    bs_modal.modal('show');
+                };
+
+                if (files && files.length > 0) {
+                    file = files[0];
+
+                    if (URL) {
+                        done(URL.createObjectURL(file));
+                    } else if (FileReader) {
+                        reader = new FileReader();
+                        reader.onload = function(e) {
+                            done(reader.result);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }
+            });
+
+            bs_modal.on('shown.bs.modal', function() {
+                cropper = new Cropper(image, {
+                    aspectRatio: 1,
+                    viewMode: 3,
+                    preview: '.preview'
+                });
+            }).on('hidden.bs.modal', function() {
+                cropper.destroy();
+                cropper = null;
+            });
+
+            $("#crop").click(function() {
+                canvas = cropper.getCroppedCanvas({
+                    width: 160,
+                    height: 160,
+                });
+
+                canvas.toBlob(function(blob) {
+                    url = URL.createObjectURL(blob);
+                    var reader = new FileReader();
+                    reader.readAsDataURL(blob);
+                    reader.onloadend = function() {
+                        var base64data = reader.result;
+
+                        $.ajax({
+                            type: "POST",
+                            dataType: "json",
+                            url: "upload.php",
+                            data: {image: base64data},
+                            success: function(data) { 
+                                bs_modal.modal('hide');
+                                alert("success upload image");
+                            }
+                        });
+                    };
+                });
+            });
+
+        </script>
+        <!-- cropper js end -->
 </body>
 
 
