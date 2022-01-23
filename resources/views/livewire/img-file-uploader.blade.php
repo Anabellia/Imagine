@@ -21,12 +21,29 @@
 
 <div class="container">
             <h5>Upload Images</h5>
-            <form method="post">
-                <input type="file" name="image" class="image">
-            </form>
-        </div>
+            
+            <!-- <a href="javascript:;" onclick="getImage()" >
+                <img src="{{ asset($imageUDb)}}">
+            </a>
+            <script>
+                function getImage(){
+                $('#image').click();
+                }
+            </script>
 
-        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+            <script>
+                function addImage(){
+                    document.getElementById("img").innerHTML = "<img src='newWatermark.png'/>"; //This will overwrite previous image
+                }                
+            </script> -->
+
+      </div>
+
+        <button type="button" class="btn btn-primary" data-target="#modal" data-toggle="modal">
+            Launch the demo
+        </button>
+
+        <div class="modal" id="modal" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -40,7 +57,7 @@
                             <div class="row">
                                 <div class="col-md-8">  
                                     <!--  default image where we will set the src via jquery-->
-                                    <img id="image">
+                                    <img id="image" src="{{ asset($imageUDb)}}">
                                 </div>
                                 <div class="col-md-4">
                                     <div class="preview"></div>
@@ -50,7 +67,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="crop">Crop</button>
+                        <button type="button" class="btn btn-primary" id="crop" data-dismiss="modal">Crop</button>
                     </div>
                 </div>
             </div>
@@ -162,11 +179,14 @@
             </div>
             @if($imageUDb)
             <div style="text-align:center">
-                <img style="max-height:400px;"  src="{{ asset($imageUDb)}}" id="placeholder" class="img-fluid">
+                <img style="max-height:400px;"  src="{{ asset($imageUDb)}}" id="placedImg" class="img-fluid">
             </div>    
             <!-- Buttons za Save/Download/Discharge -->
             <br>
             <div><button wire:click="discharge">Close</button></div>
+
+            <input class="btn btn-danger" type="button" value="Cropper.js" id="cropbtn" >
+            <!-- <button onclick="saveFunction();"  ></button> -->
             @else
             <!-- ovde bih voleo da probam drag and drop here -->
             <div>

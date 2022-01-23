@@ -126,45 +126,85 @@
     </script>
 
     <!-- -------------------------------------------- -->
-        <!-- cropper.js start -->
+        <!-- CROPPER>JS start -->
+    <!-- -------------------------------------------- -->
+
+        <!-- Ovo je moja funkcija iz eslingua mozda je upotrebim ove 
+        pa je pastam (ima i button tamo da je pozove u view) -->
         
+
+            <!-- stackowerflow!!!! -->
+            <!-- <script>
+            $(document).ready(function(){
+                $('#MyButton').click(function(){
+                CapacityChart();
+                });
+            });
+            </script> -->           
+
+            
+
+            <!-- $("#button").on('click',function(){
+                //do something
+            }); -->
+            <!-- END OF stackowerflow!!!! -->
+
+        <!-- END OF Ovo je moja funkcija iz eslingua mozda je upotrebim ove 
+        pa je pastam (ima i button tamo da je pozove u view) -->
+        
+
+
         <script>
             var bs_modal = $('#modal');
             var image = document.getElementById('image');
             var cropper,reader,file;        
 
-            $("body").on("change", ".image", function(e) {
-                var files = e.target.files;
-                var done = function(url) {
-                    image.src = url;
-                    bs_modal.modal('show');
-                };
+            /* alert(image); */
+                    $("body").on("change", ".image", function(c) {                                         
 
-                if (files && files.length > 0) {
-                    file = files[0];
+                            /* $("#cropbtn").on("click" function(e){ */
+                            var files = c.target.files;
+                            var done = function(url) {
+                                image.src = url;
+                                bs_modal.modal('show');
+                            };
 
-                    if (URL) {
-                        done(URL.createObjectURL(file));
-                    } else if (FileReader) {
-                        reader = new FileReader();
-                        reader.onload = function(e) {
-                            done(reader.result);
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                }
-            });
+                            if (files && files.length > 0) {
+                                file = files[0];
 
-            bs_modal.on('shown.bs.modal', function() {
-                cropper = new Cropper(image, {
-                    aspectRatio: 1,
-                    viewMode: 3,
-                    preview: '.preview'
-                });
-            }).on('hidden.bs.modal', function() {
-                cropper.destroy();
-                cropper = null;
-            });
+                                if (URL) {
+                                    done(URL.createObjectURL(file));
+                                } else if (FileReader) {
+                                    reader = new FileReader();
+                                    reader.onload = function(e) {
+                                        done(reader.result);
+                                    };
+                                    reader.readAsDataURL(file);
+                                }
+                            }                    
+                        });
+
+                        bs_modal.on('shown.bs.modal', function() {
+                            
+                            cropper = new Cropper(image, {
+                                autoCropArea: 0.7,
+                                viewMode: 1,
+                                center: true,
+                                dragMode: 'move',
+                                movable: true,
+                                scalable: true,
+                                guides: true,
+                                zoomOnWheel: true,
+                                cropBoxMovable: true,
+                                wheelZoomRatio: 0.1,
+                                preview: '.preview'
+                            });
+                        }).on('hidden.bs.modal', function() {
+                            cropper.destroy();
+                            cropper = null;
+                        });
+
+                        
 
             $("#crop").click(function() {
                 canvas = cropper.getCroppedCanvas({
