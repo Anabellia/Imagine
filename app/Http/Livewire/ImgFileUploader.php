@@ -135,11 +135,9 @@ class ImgFileUploader extends Component
         $extension = pathinfo($path, PATHINFO_EXTENSION);
         /* generate rand name */
         $name = Str::random();
-
+        /* dd($this->photo); */
         //u storage put novu pics u folder photos / user id / randomName.extension 
         $storePath = $this->photo->storeAs('photos' . '/' .$user->id , $name . '.' .  $extension);
-
-        $stepNumb = 1;
 
         /* ------------------------------------------ */
         /* Put it in a db for first */
@@ -209,6 +207,13 @@ class ImgFileUploader extends Component
 
     /* da se sjebe sve na pocetak solo image editing */
     public function discharge(){
+        /* Get pats od images da bi ih delete */
+        $pathsForDeleting = ImageProperties::where('user_id', (auth()->user()->id))->where('edit_id', $this->imageUDb->edit_id)->get();  
+        
+        foreach($pathsForDeleting as $pathForDelete){
+            /* dd($pathForDelete->path); */
+            Storage::delete($pathForDelete->path);
+        }
         ImageProperties::where('user_id', (auth()->user()->id))->where('edit_id', $this->imageUDb->edit_id)->delete();  
         $this->imageUDb = ""; 
         $this->iUDbPath = "";

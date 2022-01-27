@@ -114,7 +114,7 @@
             @endif
             <!-- Buttons za Save/Download/Discharge -->
             <br>
-            <div><button wire:click="discharge" class="btn btn-outline-danger" @if(!$iUDbPath) disabled @endif>Discharge</button>
+            <div><button wire:click="discharge" class="btn btn-outline-danger" @if(!$iUDbPath) disabled @endif>Discharge all & start new</button>
             &nbsp;&nbsp;&nbsp;
             <button type="button" class="btn btn-outline-dark" data-target="#modal" data-toggle="modal" @if(!$iUDbPath) disabled @endif>Crop</button>
             </div>
