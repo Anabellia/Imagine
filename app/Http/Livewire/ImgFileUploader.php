@@ -6,6 +6,7 @@ use Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use App\Models\ImageProperties;
 // import the Intervention Image Manager Class
 use Intervention\Image\ImageManagerStatic;
@@ -21,6 +22,8 @@ class ImgFileUploader extends Component
     public $photo;
     //stored image u db
     public $imageUDb;
+    // za prikaz img u blade
+    public $iUDbPath;
     
     public $ext;
     public $width;
@@ -28,6 +31,74 @@ class ImgFileUploader extends Component
 
     //za multiple uploads
     public $photos = [];    
+
+    protected $listeners = [        
+        
+        /*
+         * 'fileUpload' => 'handleFileUpload',
+         * ako imas isto ime funkcije i key value 
+         * 'imgPropertieSelected' => 'imgPropertieSelected',
+         *  mozes i ovako:
+         */
+        'imgCropped',
+    ];
+
+    public function imgCropped($cropedimageData){
+
+        /* Ako nemamo cropp return null */
+        if(!$cropedimageData){
+            return null;
+        }        
+        /* grab user id */
+        $user   = Auth::user();
+        /* Give it a rand name */
+        $name = Str::random();
+        $folderPath = public_path('photos/' . $user->id . '/');
+        $image_parts = explode(";base64,", $cropedimageData);
+        $image_type_aux = explode("image/", $image_parts[0]);
+        $image_type = $image_type_aux[1];
+        $image_base64 = base64_decode($image_parts[1]);
+        $imageName = $name . '.' . $this->imageUDb->extension;
+        $imageFullPath = $folderPath.$imageName;
+        file_put_contents($imageFullPath, $image_base64);
+
+        /* dd($this->imageUDb->edit_step_number); */
+        /* ------------------------------------------ */
+        /* Put it in a db for first */
+        /* relative path: */
+        $storePath = 'photos/' . $user->id . '/' . $imageName;
+        /* old extension samo stavljam u vari */
+        $extension = $this->imageUDb->extension;
+
+        /* $doh = $this->imageUDb->edit_step_number + 1; */
+        /* dd($doh); */
+        $this->imageUDb = ImageProperties::create(
+            [
+                'image_name' => $name,
+                'user_id' => auth()->user()->id,
+                'path' => $storePath,
+                'extension' => $extension,
+                'image_editing_name' => $this->imageUDb->image_editing_name, //isto
+                'edit_step_number' => $this->imageUDb->edit_step_number + 1, //+1 da pratim korake
+                'action_made' => 'cropped',
+                'edit_id' => $this->imageUDb->edit_id,
+            ]);
+        /* ------------------------------------------ */
+
+        $this->iUDbPath = $this->imageUDb->path;
+        
+        
+        $interImage = ImageManagerStatic::make($this->iUDbPath);
+        $this->ext = $interImage->extension;
+        $this->width = $interImage->width();
+        $this->height = $interImage->height();
+        $exif = ImageManagerStatic::make($this->iUDbPath)->exif();
+        //dd($exif);      
+        //dd($pics->width());
+        /* $this->photo = ""; */
+        
+        session()->flash('mess', 'Image successfully cropped!');
+    }
 
     public function updatedPhoto()
     {
@@ -68,6 +139,8 @@ class ImgFileUploader extends Component
         //u storage put novu pics u folder photos / user id / randomName.extension 
         $storePath = $this->photo->storeAs('photos' . '/' .$user->id , $name . '.' .  $extension);
 
+        $stepNumb = 1;
+
         /* ------------------------------------------ */
         /* Put it in a db for first */
         $this->imageUDb = ImageProperties::create(
@@ -78,23 +151,25 @@ class ImgFileUploader extends Component
                 'path' => $storePath,
                 'extension' => $extension,
                 'image_editing_name' => $this->newImgEditName,
+                'edit_step_number' => 0,
+                'action_made' => 'created',
+                'edit_id' => Str::random(),
+                
             ]);
         /* ------------------------------------------ */
-        $this->imageUDb = $this->imageUDb->path;
-        //dd($this->newImgEditName);               
+        //dd($this->imageUDb->path);
+        $this->iUDbPath = $this->imageUDb->path;
+        //dd($iUDbPath);               
         $this->title = $this->newImgEditName;
             //dd($fuck);
         /* clear photo var */
-        $interImage = ImageManagerStatic::make($this->imageUDb);
+        $interImage = ImageManagerStatic::make($this->iUDbPath);
         $this->ext = $interImage->extension;
         $this->width = $interImage->width();
         $this->height = $interImage->height();
-        $exif = ImageManagerStatic::make($this->imageUDb)->exif();
-
-
-        //dd($exif);
+        $exif = ImageManagerStatic::make($this->iUDbPath)->exif();
+        /* dd($exif); */
         
-
         /* 'Image extension: ' $interImage->extension . 
             ' mime type: ' . $interImage->mime . 
             ' width: ' . $interImage->width() . 
@@ -110,23 +185,33 @@ class ImgFileUploader extends Component
     }
 
     public function mount(){
-        $loadPic = ImageProperties::where('user_id', (auth()->user()->id))->latest()->first();   
-        if($loadPic){
-            $this->imageUDb = $loadPic->path; 
-            $this->title = $loadPic->image_editing_name;
+        /* dd('Hey'); */
+        $this->imageUDb = ImageProperties::where('user_id', (auth()->user()->id))->latest()->first();   
+        if($this->imageUDb){
+            /* dd($loadPic->path); */
+            
+            $this->iUDbPath = $this->imageUDb->path;
+            $this->title = $this->imageUDb->image_editing_name;
+
+            $interImage = ImageManagerStatic::make($this->iUDbPath);
+            $this->ext = $interImage->extension;
+            $this->width = $interImage->width();
+            $this->height = $interImage->height();
+            $exif = ImageManagerStatic::make($this->iUDbPath)->exif();
         }
          
     }
 
-    /* Reset formu da moze se ponovo druga upload */
+    /* Reset formu da moze se ponovo druga upload (za temp photo kad uploading)*/
     public function removePhoto(){
         $this->reset();
     }
 
     /* da se sjebe sve na pocetak solo image editing */
     public function discharge(){
-        ImageProperties::where('user_id', (auth()->user()->id))->where('path', $this->imageUDb)->delete();  
+        ImageProperties::where('user_id', (auth()->user()->id))->where('edit_id', $this->imageUDb->edit_id)->delete();  
         $this->imageUDb = ""; 
+        $this->iUDbPath = "";
         $this->title = "";
         $this->render();
         

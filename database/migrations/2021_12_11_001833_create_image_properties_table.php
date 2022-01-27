@@ -18,8 +18,11 @@ class CreateImagePropertiesTable extends Migration
             $table->string('image_name')->nullable();
             $table->string('image_editing_name')->nullable();
             $table->unsignedBigInteger('user_id');
-            $table->string('path')->nullable();;
-            $table->string('extension')->nullable();;
+            $table->string('path')->nullable();
+            $table->string('extension')->nullable();
+            $table->integer('edit_step_number')->nullable();
+            $table->string('action_made')->nullable();
+            $table->string('edit_id')->nullable();            
             $table->timestamps();
         });
     }

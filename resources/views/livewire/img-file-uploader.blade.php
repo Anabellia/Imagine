@@ -1,83 +1,7 @@
 <div>
     <p>Hello from img-file-uploader bledea</p>   
 
-    <!-- =============================================================================== -->
-    <!-- CROPPER . JS START -->
-    <!-- =============================================================================== -->
-    <style type="text/css">
-        img {
-            display: block;
-            max-width: 100%;
-        }
-        .preview {
-            overflow: hidden;
-            width: 160px; 
-            height: 160px;
-            margin: 10px;
-            border: 1px solid red;
-        }
-        
-    </style>
-
-<div class="container">
-            <h5>Upload Images</h5>
-            
-            <!-- <a href="javascript:;" onclick="getImage()" >
-                <img src="{{ asset($imageUDb)}}">
-            </a>
-            <script>
-                function getImage(){
-                $('#image').click();
-                }
-            </script>
-
-            <script>
-                function addImage(){
-                    document.getElementById("img").innerHTML = "<img src='newWatermark.png'/>"; //This will overwrite previous image
-                }                
-            </script> -->
-
-      </div>
-
-        <button type="button" class="btn btn-primary" data-target="#modal" data-toggle="modal">
-            Launch the demo
-        </button>
-
-        <div class="modal" id="modal" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalLabel">Crop image</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="img-container">
-                            <div class="row">
-                                <div class="col-md-8">  
-                                    <!--  default image where we will set the src via jquery-->
-                                    <img id="image" src="{{ asset($imageUDb)}}">
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="preview"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="crop" data-dismiss="modal">Crop</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-    <!-- =============================================================================== -->
-    <!-- CROPPER . JS KRAJ -->
-    <!-- =============================================================================== -->
-
+    
     <hr>
     <!-- =============================================================================== -->
     <!-- container za singe image: levo mislim properties of image a desno sam image za obradu -->
@@ -177,15 +101,10 @@
                         @endif
                     </div>
             </div>
-            @if($imageUDb)
+            @if($iUDbPath)
             <div style="text-align:center">
-                <img style="max-height:400px;"  src="{{ asset($imageUDb)}}" id="placedImg" class="img-fluid">
-            </div>    
-            <!-- Buttons za Save/Download/Discharge -->
-            <br>
-            <div><button wire:click="discharge">Close</button></div>
-
-            <input class="btn btn-danger" type="button" value="Cropper.js" id="cropbtn" >
+                <img style="max-height:400px;"  src="{{ asset($iUDbPath)}}" id="placedImg" class="img-fluid">
+            </div>
             <!-- <button onclick="saveFunction();"  ></button> -->
             @else
             <!-- ovde bih voleo da probam drag and drop here -->
@@ -193,6 +112,12 @@
                 <img src="{{ asset('photos\ImgPlaceholder\placeholder.png')}}" class="img-fluid" alt="2Responsive image" width="400">
             </div>
             @endif
+            <!-- Buttons za Save/Download/Discharge -->
+            <br>
+            <div><button wire:click="discharge" class="btn btn-outline-danger" @if(!$iUDbPath) disabled @endif>Discharge</button>
+            &nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn btn-outline-dark" data-target="#modal" data-toggle="modal" @if(!$iUDbPath) disabled @endif>Crop</button>
+            </div>
 
             
 
@@ -287,6 +212,139 @@
                 </div>    
                 <div class="col-1"></div>
             </div>
+
+
+
+
+
+            <!-- =============================================================================== -->
+    <!-- CROPPER . JS START -->
+    <!-- =============================================================================== -->
+    <style type="text/css">
+        img {
+            display: block;
+            max-width: 100%;
+        }
+        .preview {
+            overflow: hidden;
+            width: 160px; 
+            height: 160px;
+            margin: 10px;
+            border: 1px solid red;
+        }
+        
+    </style>
+
+        <div class="modal" id="modal" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel">Crop image</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="img-container">
+                            <div class="row">
+                                <div class="col-md-8">  
+                                    <!--  default image where we will set the src via jquery-->
+                                    <img id="image" src="{{ asset($iUDbPath)}}">
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="preview"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="crop" data-dismiss="modal">Crop</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!-- ================================================================================================================= -->
+            <!-- -------------------------------------------- -->
+        <!-- CROPPER>JS start -->
+    <!-- -------------------------------------------- -->
+
+        <script>
+            var bs_modal = $('#modal');
+            var image = document.getElementById('image');
+            var cropper;        
+
+            /* alert(image); */
+                    /* $("body").on("change", ".image", function(c) {
+                            var files = c.target.files;
+                            var done = function(url) {
+                                image.src = url;
+                                bs_modal.modal('show');
+                            };
+
+                            if (files && files.length > 0) {
+                                file = files[0];
+
+                                if (URL) {
+                                    done(URL.createObjectURL(file));
+                                } else if (FileReader) {
+                                    reader = new FileReader();
+                                    reader.onload = function(e) {
+                                        done(reader.result);
+                                    };
+                                    reader.readAsDataURL(file);
+                                }
+                            }                    
+                        }); */
+
+                        bs_modal.on('shown.bs.modal', function() {    
+                                                  
+                            cropper = new Cropper(image, {
+                                autoCropArea: 0.7,
+                                viewMode: 1,
+                                center: true,
+                                dragMode: 'move',
+                                movable: true,
+                                scalable: true,
+                                guides: true,
+                                zoomOnWheel: true,
+                                cropBoxMovable: true,
+                                wheelZoomRatio: 0.1,
+                                preview: '.preview'
+                            });
+                        }).on('hidden.bs.modal', function() {
+                            cropper.destroy();
+                            cropper = null;
+                        });
+
+                        
+
+            $("#crop").click(function() {
+                canvas = cropper.getCroppedCanvas({
+                    /* width: 160,
+                    height: 160, */
+                });
+
+                canvas.toBlob(function(blob) {
+                    url = URL.createObjectURL(blob);
+                    var reader = new FileReader();
+                    reader.readAsDataURL(blob);
+                    reader.onloadend = function() {
+                        window.livewire.emit('imgCropped', reader.result);
+                        
+                    };
+                });
+            });
+
+        </script>
+        
+        <!-- cropper js end -->
+
+
+    <!-- =============================================================================== -->
+    <!-- CROPPER . JS KRAJ -->
+    <!-- =============================================================================== -->
     
 
 </div>

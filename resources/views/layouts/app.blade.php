@@ -9,8 +9,7 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    
     
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -23,19 +22,16 @@
     
     <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" </script> -->
     
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
 
-
-
-
+    <!-- Scripts & styles-->
+    <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script> -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/2.0.0-alpha.2/cropper.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/2.0.0-alpha.2/cropper.min.css" rel="stylesheet" type="text/css">
-    
-    <!-- Styles -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <livewire:styles />
     
 </head>
@@ -125,116 +121,7 @@
         
     </script>
 
-    <!-- -------------------------------------------- -->
-        <!-- CROPPER>JS start -->
-    <!-- -------------------------------------------- -->
 
-        <!-- Ovo je moja funkcija iz eslingua mozda je upotrebim ove 
-        pa je pastam (ima i button tamo da je pozove u view) -->
-        
-
-            <!-- stackowerflow!!!! -->
-            <!-- <script>
-            $(document).ready(function(){
-                $('#MyButton').click(function(){
-                CapacityChart();
-                });
-            });
-            </script> -->           
-
-            
-
-            <!-- $("#button").on('click',function(){
-                //do something
-            }); -->
-            <!-- END OF stackowerflow!!!! -->
-
-        <!-- END OF Ovo je moja funkcija iz eslingua mozda je upotrebim ove 
-        pa je pastam (ima i button tamo da je pozove u view) -->
-        
-
-
-        <script>
-            var bs_modal = $('#modal');
-            var image = document.getElementById('image');
-            var cropper,reader,file;        
-
-            /* alert(image); */
-                    $("body").on("change", ".image", function(c) {                                         
-
-                            /* $("#cropbtn").on("click" function(e){ */
-                            var files = c.target.files;
-                            var done = function(url) {
-                                image.src = url;
-                                bs_modal.modal('show');
-                            };
-
-                            if (files && files.length > 0) {
-                                file = files[0];
-
-                                if (URL) {
-                                    done(URL.createObjectURL(file));
-                                } else if (FileReader) {
-                                    reader = new FileReader();
-                                    reader.onload = function(e) {
-                                        done(reader.result);
-                                    };
-                                    reader.readAsDataURL(file);
-                                }
-                            }                    
-                        });
-
-                        bs_modal.on('shown.bs.modal', function() {
-                            
-                            cropper = new Cropper(image, {
-                                autoCropArea: 0.7,
-                                viewMode: 1,
-                                center: true,
-                                dragMode: 'move',
-                                movable: true,
-                                scalable: true,
-                                guides: true,
-                                zoomOnWheel: true,
-                                cropBoxMovable: true,
-                                wheelZoomRatio: 0.1,
-                                preview: '.preview'
-                            });
-                        }).on('hidden.bs.modal', function() {
-                            cropper.destroy();
-                            cropper = null;
-                        });
-
-                        
-
-            $("#crop").click(function() {
-                canvas = cropper.getCroppedCanvas({
-                    width: 160,
-                    height: 160,
-                });
-
-                canvas.toBlob(function(blob) {
-                    url = URL.createObjectURL(blob);
-                    var reader = new FileReader();
-                    reader.readAsDataURL(blob);
-                    reader.onloadend = function() {
-                        var base64data = reader.result;
-
-                        $.ajax({
-                            type: "POST",
-                            dataType: "json",
-                            url: "upload.php",
-                            data: {image: base64data},
-                            success: function(data) { 
-                                bs_modal.modal('hide');
-                                alert("success upload image");
-                            }
-                        });
-                    };
-                });
-            });
-
-        </script>
-        <!-- cropper js end -->
 </body>
 
 

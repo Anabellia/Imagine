@@ -17,6 +17,9 @@ class ImageProperties extends Model
         'path',
         'extension',
         'image_editing_name',
+        'edit_step_number',
+        'action_made',
+        'edit_id',
     ];
     
     public function comments(){
