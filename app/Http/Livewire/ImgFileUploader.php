@@ -53,7 +53,7 @@ class ImgFileUploader extends Component
         $user   = Auth::user();
         /* Give it a rand name */
         $name = Str::random();
-        $folderPath = public_path('photos/' . $user->id . '/');
+        $folderPath = public_path('storage/photos/' . $user->id . '/');
         $image_parts = explode(";base64,", $cropedimageData);
         $image_type_aux = explode("image/", $image_parts[0]);
         $image_type = $image_type_aux[1];
@@ -85,7 +85,7 @@ class ImgFileUploader extends Component
             ]);
         /* ------------------------------------------ */
 
-        $this->iUDbPath = $this->imageUDb->path;
+        $this->iUDbPath = 'storage/' . $this->imageUDb->path;
         
         
         $interImage = ImageManagerStatic::make($this->iUDbPath);
@@ -138,7 +138,7 @@ class ImgFileUploader extends Component
         /* dd($this->photo); */
         //u storage put novu pics u folder photos / user id / randomName.extension 
         $storePath = $this->photo->storeAs('photos' . '/' .$user->id , $name . '.' .  $extension);
-
+        //dd($storePath->getRealPath());
         /* ------------------------------------------ */
         /* Put it in a db for first */
         $this->imageUDb = ImageProperties::create(
@@ -156,12 +156,17 @@ class ImgFileUploader extends Component
             ]);
         /* ------------------------------------------ */
         //dd($this->imageUDb->path);
-        $this->iUDbPath = $this->imageUDb->path;
-        //dd($iUDbPath);               
+        $this->iUDbPath = 'storage/' . $this->imageUDb->path;
+
+        //$path = storage_path();
+        //dd($this->iUDbPath);               
         $this->title = $this->newImgEditName;
             //dd($fuck);
         /* clear photo var */
+        // \storage\photos\34\LdLDLncOq9SCZtaS.jpg
         $interImage = ImageManagerStatic::make($this->iUDbPath);
+        //$interImage = ImageManagerStatic::make($this->iUDbPath);
+        //dd('biucc');
         $this->ext = $interImage->extension;
         $this->width = $interImage->width();
         $this->height = $interImage->height();

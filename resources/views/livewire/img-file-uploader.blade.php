@@ -12,7 +12,7 @@
 
         <div class="col-3">
             <h3>Singe photo uploading</h3>            
-            <form wire:submit.prevent="savePhoto">
+            <form wire:submit.prevent="savePhoto" enctype='multipart/form-data'>
                         @error('photo')
                             <h4><span class="error text-danger font-weight-normal" >{{ $message }}</span></h4> 
                         @enderror
