@@ -1,12 +1,20 @@
 <div>
-    <p>Hello from img-file-uploader bledea
+
+        <div class="container">
+        <div class="row justify-content-start">
+
+            <div class="col-4">
+            <p>Hello from img-file-uploader bledea</p>
+            </div>
+
+            <div class="col-4">
             @error('photo')
                             <h4><span class="error text-danger font-weight-normal" >{{ $message }}</span></h4> 
             @enderror    
                        
                     <!-- Delete from History successuful message -->
                     @if(session()->has('delFromHis'))
-                        <span class="alert alert-success">{{ session('delFromHis') }}</span>                           
+                        <span class="alert alert-success" >{{ session('delFromHis') }}</span>                           
                     @endif
                         <script>
                             $(document).ready(function(){
@@ -45,7 +53,11 @@
                             });
                         </script>
                     <!-- End of Cropping successuful message -->
-    </p>   
+            </div>
+        </div>
+    
+            
+  
 
     
     <hr>
@@ -97,10 +109,6 @@
         <div class="col-3" style="text-align:center">
             <h6>Singe photo uploading</h6>            
             <form wire:submit.prevent="savePhoto" enctype='multipart/form-data'>
-                        
-                        
-                        
-                        
                         @if($photo)                                
                                 <!-- Iconica x -->            
                                         <!-- Ovaj comment id kako je se dobio je 
