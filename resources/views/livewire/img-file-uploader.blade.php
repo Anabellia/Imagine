@@ -107,37 +107,13 @@
 
 
         <div class="col-3" style="text-align:center">
-            <h6>Singe photo uploading</h6>            
-            <form wire:submit.prevent="savePhoto" enctype='multipart/form-data'>
-                        @if($photo)                                
-                                <!-- Iconica x -->            
-                                        <!-- Ovaj comment id kako je se dobio je 
-                                        interesantan ako hoces da capis nesto iz bledea mora biti double bracess
-                                        A ovaj fas fa-times je iconica iz fontawesome!!!
-                                        -->                                      
-                                        <i wire:click="removePhoto"                                         
-                                            class="fas fa-times-circle fa-2x" 
-                                            onmouseover="this.style.color='red'" 
-                                            onmouseout="this.style.color='grey'" 
-                                            style="cursor: pointer; color: grey" ></i>                                                        
-                                <!--kraj za Iconica x -->                    
-                                <img src="{{ $photo->temporaryUrl() }}"  alt="" width="200" >
-                                <div>
-                                <input wire:model.debounce.500ms="newImgEditName" type="text" placeholder="Image Edit Name" >
-                            </div>
-                                <button type="submit">Save Photo</button>
-                        @endif
+            <h6>Singe photo uploading</h6>     
 
-                    <!-- Image Edit Name --> 
-                    
-                    @if(!$photo)
+                @if(!$photo)
                     <!-- Picture uploading -->
                     <div>
                         <!-- 100mb = 100000000 ; 1mb=1000000 -->
-                        <label for="img" class="btn btn-info">Upload Image</label>                
-
-
-
+                        <label for="img" class="btn btn-info">Upload Image</label>
                         <input type="file" id="img" style="display:none"
                             onchange="if(!this.files[0].name.match(/.(jpg|jpeg|gif|png|bmp|svg|svgz|cgm|djv|djvu|ico|ief|jpe|pbm|pgm|pnm|ppm|ras|rgb|tif|tiff|wbmp|xbm|xpm|xwd)$/i))
                                         {alert('not an image');}
@@ -145,25 +121,71 @@
                                         event.stopImmediatePropagation();                    
                                         alert('File uploads cannot be larger than 1MB.');
                                         this.form.reset();
-                                        }" 
+                                        }
+                                        " 
                             wire:model="photo" />
                     </div>
-                    @endif
-                            
-                    @if($imageUDb)
+                @endif       
+
+                <!-- Modal za upload formu-->
+                    <div class="modal" id="photoUploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                            <form wire:submit.prevent="savePhoto" enctype='multipart/form-data'>
+                                        @if($photo)                                
+                                                                                 
+                                                        <i wire:click="removePhoto"                                         
+                                                            class="fas fa-times-circle fa-2x" 
+                                                            onmouseover="this.style.color='red'" 
+                                                            onmouseout="this.style.color='grey'" 
+                                                            style="cursor: pointer; color: grey" ></i>                                                        
+                                                                   
+                                                <img src="{{ $photo->temporaryUrl() }}"  alt="" width="200" >
+                                                <div>
+                                                <input wire:model.debounce.500ms="newImgEditName" type="text" placeholder="Image Edit Name" >
+                                            </div>
+                                                <button type="submit">Save Photo</button>
+                                        @endif
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
                     
+                    <script>
+                        window.addEventListener('show-uploadingPhoto', event => {
+                            $('#photoUploadModal').modal('show');
+                        })
+                    </script>
+                <!-- End of Modal za upload formu-->
+
+                          
+                   
+                    
+                    
+                            
+                    @if($imageUDb)                    
                         <h6>Image properties:</h6>
                         <p>extension: {{$ext}}</p>
                         <p>width: {{$width}}</p>
-                        <p>height: {{$height}}</p>
-                        
+                        <p>height: {{$height}}</p>                        
                     @endif
                             <!-- Ovo sta znam mozda ti zatreba pa ostavljam ispise text dok nesto radi -->
                             <!-- <div wire:loading wire:target="photo">Uploading...</div>
-
                             <div wire:loading wire:target="savePhoto">Saving photo...</div> -->
                             <br>
-                </form>
+                
 
                 
         </div>
@@ -193,7 +215,7 @@
             <div>
                 <button type="button" class="btn btn-outline-dark" data-target="#modal" data-toggle="modal" @if(!$iUDbPath) disabled @endif>Crop</button>
                 &nbsp;&nbsp;&nbsp;
-                <button wire:click.prevent="modalFire" class="btn btn-outline-danger" @if(!$iUDbPath) disabled @endif>Discard</button>
+                <button wire:click.prevent="modalDiscardFire" class="btn btn-outline-danger" @if(!$iUDbPath) disabled @endif>Discard</button>
             </div>
 
             
@@ -316,13 +338,13 @@
                 </div>
             </div>
         </div>
-        <!-- End of Modal discharge and start over warning-->
+        
         <script>
             window.addEventListener('show-discardAll', event => {
                 $('#discardAll').modal('show');
             })
         </script>
-        
+        <!-- End of Modal discharge and start over warning-->
 
 
     <!-- =============================================================================== -->

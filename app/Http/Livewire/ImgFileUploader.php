@@ -45,6 +45,7 @@ class ImgFileUploader extends Component
          *  mozes i ovako:
          */
         'imgCropped',
+        'modalUploadingFire',
     ];
 
     public function imgCropped($cropedimageData){
@@ -106,11 +107,14 @@ class ImgFileUploader extends Component
 
     public function updatedPhoto()
     {
+        //dd('sdfsdhfbd');
         //IMAS VALIDACIJU I NA BLADE FILEU PRE TEMP UPLOADA!!
         $this->validate([
             'photo' => 'image|max:1024', // 1MB Max
             
         ]);
+
+        $this->modalUploadingFire();
     }
 
     public function savePhoto()
@@ -248,9 +252,13 @@ class ImgFileUploader extends Component
         $this->emit('delFromHis_remove');
     }
 
-    public function modalFire(){
+    public function modalDiscardFire(){
         $this->dispatchBrowserEvent('show-discardAll');
     }
+
+    public function modalUploadingFire(){        
+            $this->dispatchBrowserEvent('show-uploadingPhoto');
+        }
 
     /* Za multiple photos */
     public function savePhotos()
