@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use App\Models\ImageProperties;
@@ -13,6 +14,9 @@ use Intervention\Image\ImageManagerStatic;
 
 class ImgFileUploader extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
     use WithFileUploads;
 
     //Name of single photo editing design
@@ -193,7 +197,7 @@ class ImgFileUploader extends Component
         if($this->imageUDb){
             /* dd($loadPic->path); */
             
-            $this->iUDbPath = $this->imageUDb->path;
+            $this->iUDbPath = 'storage/' . $this->imageUDb->path;
             $this->title = $this->imageUDb->image_editing_name;
 
             $interImage = ImageManagerStatic::make($this->iUDbPath);
@@ -229,6 +233,31 @@ class ImgFileUploader extends Component
         /* dd($test); */
     }
 
+    //ovaj commentID to je ono sto dobijamo iz bledea i nemoramo ga definisati.
+    //Removing one action from levo history
+    public function removeFromHistory($editID)
+    {
+        
+        $forHistoryDel = ImageProperties::where('id', $editID)->first();
+
+        if($forHistoryDel->edit_step_number > 0){
+            //dd($forHistoryDel->path);
+        Storage::delete($forHistoryDel->path);
+        
+        $forHistoryDel->delete();
+        
+        //dd($comment);
+        $this->reset();
+        $this->mount();
+        session()->flash('delFromHis', 'edit step deleted successfully :)');
+        }elseif($forHistoryDel->edit_step_number == 0){
+            /* $this->reset(); */
+            $this->discharge();
+        }
+        
+
+    }
+
     /* Za multiple photos */
     public function savePhotos()
     {
@@ -253,6 +282,8 @@ class ImgFileUploader extends Component
 
     public function render()
     {
-        return view('livewire.img-file-uploader');
+        return view('livewire.img-file-uploader', [
+            'edits' => ImageProperties::where('user_id', (auth()->user()->id))->latest()->simplePaginate(4),
+        ]);
     }
 }

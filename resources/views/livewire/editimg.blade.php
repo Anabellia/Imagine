@@ -62,7 +62,7 @@
                         <p class="card-text">{{$comment->body}}</p>  
                         @if($comment->image)
                         
-                        <img src="{{$comment->imagePath}}" alt="" width="200" >          
+                        <img src="{{$comment->imagePath}}" alt="" width="200" >
                         @endif        
                     </div>
                 </div>

@@ -19,9 +19,9 @@
 
 
     <div class="row">
-    <div class="col-1"></div>    
-    <div class="col-10"><livewire:img-file-uploader /></div>
-    <div class="col-1"></div>
+    <!-- <div class="col-1"></div>    --> 
+    <div class="col-12"><livewire:img-file-uploader /></div>
+    <!-- <div class="col-1"></div> -->
   </div>
 
 

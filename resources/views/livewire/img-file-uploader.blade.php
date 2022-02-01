@@ -1,5 +1,29 @@
 <div>
-    <p>Hello from img-file-uploader bledea</p>   
+    <p>Hello from img-file-uploader bledea
+            @error('photo')
+                            <h4><span class="error text-danger font-weight-normal" >{{ $message }}</span></h4> 
+            @enderror
+    
+            @if(session()->has('delFromHis'))
+                <span class="alert alert-success">
+                    {{ session('delFromHis') }}
+                </span>
+            @endif
+            <!-- OVO JE MESSAGE KOJI NESTANE POSLE 3 S!!! 
+                    Success upload message alert -->
+                    
+                        @if(session()->has('mess'))
+                            <span class="alert alert-success">                                    
+                                {{ session('mess') }}
+                            </span>
+
+                            <script>
+                                var timeout = 3000; // in miliseconds (3*1000)
+                                $('.alert').delay(timeout).fadeOut(500);
+                            </script>
+                        @endif
+                    
+        </p>   
 
     
     <hr>
@@ -8,14 +32,49 @@
     <!-- =============================================================================== -->
     <div class="container">
         <div class="row">
-        <div class="col-1"></div>
 
-        <div class="col-3">
-            <h3>Singe photo uploading</h3>            
+            <!-- Levo history of editing -->
+            <div class="col-2">            
+                <h5>History:</h5>
+                    @foreach($edits as $edit)  
+                    <!-- ovaj dflex ce da rasporedi ova dole dva diva jedan levo drugi desno -->    
+                    <div class="d-flex">
+                        <div>
+                            @if($edit->edit_step_number == 0) <h6>{{$edit->action_made}}</h6>@else <p>{{$edit->action_made}}</p>@endif
+                        </div>
+                                             
+                        <div class="ml-auto">
+                            <!-- Iconica x -->            
+                                    <!-- Ovaj comment id kako je se dobio je 
+                                    interesantan ako hoces da capis nesto iz bledea mora biti double bracess
+                                    A ovaj fas fa-times je iconica iz fontawesome!!!
+                                    -->                                            
+                                <i wire:click="removeFromHistory({{$edit->id}})"                                         
+                                        class="fas fa-trash" 
+                                        onmouseover="this.style.color='red'" 
+                                        onmouseout="this.style.color='grey'" 
+                                        style="cursor: pointer; color: grey" ></i>                                                        
+                            <!--kraj za Iconica x -->
+                        </div>
+                    </div>   
+                    
+                    <p class="small">{{$edit->created_at->diffForHumans()}}</p>                    
+                     
+                    
+                    
+                    <!-- <img src="{{asset('storage/' . $edit->path)}}" alt="" width="80" > -->
+                    <hr>
+                    @endforeach
+                    {{ $edits->links() }}
+            </div>
+            <!-- End of Levo history of editing -->
+
+
+
+        <div class="col-3" style="text-align:center">
+            <h6>Singe photo uploading</h6>            
             <form wire:submit.prevent="savePhoto" enctype='multipart/form-data'>
-                        @error('photo')
-                            <h4><span class="error text-danger font-weight-normal" >{{ $message }}</span></h4> 
-                        @enderror
+                        
                         
                         
                         
@@ -63,7 +122,7 @@
                             
                     @if($imageUDb)
                     
-                        <h3>Image properties:</h3>
+                        <h6>Image properties:</h6>
                         <p>extension: {{$ext}}</p>
                         <p>width: {{$width}}</p>
                         <p>height: {{$height}}</p>
@@ -86,20 +145,7 @@
         <div class="col-7">
             <div>
                 <p>@if($title)Title: {{$title}} @else Untitled @endif</p>
-                <!-- OVO JE MESSAGE KOJI NESTANE POSLE 3 S!!! 
-                    Success upload message alert -->
-                    <div>
-                        @if(session()->has('mess'))
-                            <div class="alert alert-success">                                    
-                                {{ session('mess') }}
-                            </div>
-
-                            <script>
-                                var timeout = 3000; // in miliseconds (3*1000)
-                                $('.alert').delay(timeout).fadeOut(500);
-                            </script>
-                        @endif
-                    </div>
+                
             </div>
             @if($iUDbPath)
             <div style="text-align:center">
@@ -123,7 +169,7 @@
 
         </div>   
         
-        <div class="col-1"></div>
+        <div class="col-0"></div>
     </div>   
 
     <!-- --------------------------------------------------------------------------------- -->
