@@ -2,28 +2,50 @@
     <p>Hello from img-file-uploader bledea
             @error('photo')
                             <h4><span class="error text-danger font-weight-normal" >{{ $message }}</span></h4> 
-            @enderror
-    
-            @if(session()->has('delFromHis'))
-                <span class="alert alert-success">
-                    {{ session('delFromHis') }}
-                </span>
-            @endif
-            <!-- OVO JE MESSAGE KOJI NESTANE POSLE 3 S!!! 
-                    Success upload message alert -->
-                    
-                        @if(session()->has('mess'))
-                            <span class="alert alert-success">                                    
-                                {{ session('mess') }}
-                            </span>
+            @enderror    
+                       
+                    <!-- Delete from History successuful message -->
+                    @if(session()->has('delFromHis'))
+                        <span class="alert alert-success">{{ session('delFromHis') }}</span>                           
+                    @endif
+                        <script>
+                            $(document).ready(function(){
+                                window.livewire.on('delFromHis_remove',()=>{
+                                    setTimeout(function(){ $(".alert-success").fadeOut('fast');
+                                    }, 2000); // 2 secs
+                                });
+                            });
+                        </script>
+                    <!-- End of Delete from History successuful message -->
 
-                            <script>
-                                var timeout = 3000; // in miliseconds (3*1000)
-                                $('.alert').delay(timeout).fadeOut(500);
-                            </script>
-                        @endif
-                    
-        </p>   
+                    <!-- Upload successuful message -->
+                    @if(session()->has('uploadMess'))
+                        <span class="alert alert-success">{{ session('uploadMess') }}</span>                            
+                    @endif
+                        <script>
+                            $(document).ready(function(){
+                                window.livewire.on('uploadMess_remove',()=>{
+                                    setTimeout(function(){ $(".alert-success").fadeOut('fast');
+                                    }, 2000); // 2 secs
+                                });
+                            });
+                        </script>
+                    <!-- End of Upload successuful message -->
+
+                    <!-- Cropping successuful message -->
+                    @if(session()->has('cropMess'))
+                        <span class="alert alert-success">{{ session('cropMess') }}</span>                            
+                    @endif
+                        <script>
+                            $(document).ready(function(){
+                                window.livewire.on('cropMess_remove',()=>{
+                                    setTimeout(function(){ $(".alert-success").fadeOut('fast');
+                                    }, 2000); // 2 secs
+                                });
+                            });
+                        </script>
+                    <!-- End of Cropping successuful message -->
+    </p>   
 
     
     <hr>
@@ -39,7 +61,8 @@
                     @foreach($edits as $edit)  
                     <!-- ovaj dflex ce da rasporedi ova dole dva diva jedan levo drugi desno -->    
                     <div class="d-flex">
-                        <div>
+                        <!-- mr-2 znaci space margin desno 2 -->
+                        <div class="mr-2">
                             @if($edit->edit_step_number == 0) <h6>{{$edit->action_made}}</h6>@else <p>{{$edit->action_made}}</p>@endif
                         </div>
                                              
@@ -103,8 +126,7 @@
                     <!-- Picture uploading -->
                     <div>
                         <!-- 100mb = 100000000 ; 1mb=1000000 -->
-                        <label for="img" class="btn btn-info">Upload Image</label>
-                        
+                        <label for="img" class="btn btn-info">Upload Image</label>                
 
 
 
@@ -160,9 +182,10 @@
             @endif
             <!-- Buttons za Save/Download/Discharge -->
             <br>
-            <div><button wire:click="discharge" class="btn btn-outline-danger" @if(!$iUDbPath) disabled @endif>Discharge all & start new</button>
-            &nbsp;&nbsp;&nbsp;
-            <button type="button" class="btn btn-outline-dark" data-target="#modal" data-toggle="modal" @if(!$iUDbPath) disabled @endif>Crop</button>
+            <div>
+                <button type="button" class="btn btn-outline-dark" data-target="#modal" data-toggle="modal" @if(!$iUDbPath) disabled @endif>Crop</button>
+                &nbsp;&nbsp;&nbsp;
+                <button wire:click.prevent="modalFire" class="btn btn-outline-danger" @if(!$iUDbPath) disabled @endif>Discard</button>
             </div>
 
             
@@ -195,13 +218,13 @@
             @enderror
 
             <!-- Success upload message -->
-            <div>
+            <!-- <div>
                 @if (session()->has('message'))
                     <div class="alert alert-success">
                         {{ session('message') }}
                     </div>
                 @endif
-            </div>
+            </div> -->
 
             <!-- prevew images -->
             @if($photos)
@@ -262,8 +285,39 @@
 
 
 
+        <!-- Modal za discard and start over warning-->
+        <div class="modal" id="discardAll" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="exampleModalLongTitle">Are you sure you want to reset the current project?</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <i                                         
+                                            class="fas fa-times-circle" 
+                                            onmouseover="this.style.color='red'" 
+                                            onmouseout="this.style.color='grey'" 
+                                            style="cursor: pointer; color: grey" ></i>
+                        
+                        </button>
+                    </div>
+                    <div class="modal-body " style="text-align:center">
+                        <button wire:click="discharge" class="btn btn-outline-danger" data-dismiss="modal">Discard all</button>
+                        &nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>                                    
+                </div>
+            </div>
+        </div>
+        <!-- End of Modal discharge and start over warning-->
+        <script>
+            window.addEventListener('show-discardAll', event => {
+                $('#discardAll').modal('show');
+            })
+        </script>
+        
 
-            <!-- =============================================================================== -->
+
+    <!-- =============================================================================== -->
     <!-- CROPPER . JS START -->
     <!-- =============================================================================== -->
     <style type="text/css">
@@ -303,7 +357,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer">                    
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         <button type="button" class="btn btn-primary" id="crop" data-dismiss="modal">Crop</button>
                     </div>
@@ -391,6 +445,7 @@
     <!-- =============================================================================== -->
     <!-- CROPPER . JS KRAJ -->
     <!-- =============================================================================== -->
+    
     
 
 </div>

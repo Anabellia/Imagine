@@ -100,8 +100,8 @@ class ImgFileUploader extends Component
         //dd($exif);      
         //dd($pics->width());
         /* $this->photo = ""; */
-        
-        session()->flash('mess', 'Image successfully cropped!');
+        session()->flash('cropMess', 'Image successfully cropped!');
+        $this->emit('cropMess_remove');
     }
 
     public function updatedPhoto()
@@ -185,8 +185,9 @@ class ImgFileUploader extends Component
         //dd($pics->width());
         $this->photo = "";
         $this->newImgEditName = "";
-        session()->flash('mess', 'Image successfully uploaded!');
-        
+        session()->flash('uploadMess', 'Image successfully uploaded!');
+        $this->emit('uploadMess_remove');
+                
 
         /*  */
     }
@@ -235,27 +236,20 @@ class ImgFileUploader extends Component
 
     //ovaj commentID to je ono sto dobijamo iz bledea i nemoramo ga definisati.
     //Removing one action from levo history
-    public function removeFromHistory($editID)
-    {
-        
+    public function removeFromHistory($editID){            
         $forHistoryDel = ImageProperties::where('id', $editID)->first();
-
-        if($forHistoryDel->edit_step_number > 0){
-            //dd($forHistoryDel->path);
-        Storage::delete($forHistoryDel->path);
-        
-        $forHistoryDel->delete();
-        
+        //dd($forHistoryDel->path);
+        Storage::delete($forHistoryDel->path);        
+        $forHistoryDel->delete();        
         //dd($comment);
         $this->reset();
         $this->mount();
         session()->flash('delFromHis', 'edit step deleted successfully :)');
-        }elseif($forHistoryDel->edit_step_number == 0){
-            /* $this->reset(); */
-            $this->discharge();
-        }
-        
+        $this->emit('delFromHis_remove');
+    }
 
+    public function modalFire(){
+        $this->dispatchBrowserEvent('show-discardAll');
     }
 
     /* Za multiple photos */
