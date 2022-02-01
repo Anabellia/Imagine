@@ -45,7 +45,6 @@ class ImgFileUploader extends Component
          *  mozes i ovako:
          */
         'imgCropped',
-        'modalUploadingFire',
     ];
 
     public function imgCropped($cropedimageData){

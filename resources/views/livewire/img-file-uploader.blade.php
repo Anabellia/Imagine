@@ -139,8 +139,7 @@
                             </div>
                             <div class="modal-body">
                             <form wire:submit.prevent="savePhoto" enctype='multipart/form-data'>
-                                        @if($photo)                                
-                                                                                 
+                                        @if($photo)                        
                                                         <i wire:click="removePhoto"                                         
                                                             class="fas fa-times-circle fa-2x" 
                                                             onmouseover="this.style.color='red'" 
