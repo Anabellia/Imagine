@@ -99,46 +99,8 @@
             <!-- End of Levo history of editing -->
             <!-- ***************************************************** -->
 
-            <!-- Uploading image ovde probam drop zone -->
-            <div class="container">
-                <h6 class="mt-5 mb-5 text-center text-primary"><b>Drag & Drop Upload Multiple File with Progress Bar using JavaScript in PHP</b></h6>
+        <!-- DROP ZONE -->            
 
-                <div class="card">
-                    <div class="card-header">Drag & Drop File Here</div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-3">&nbsp;</div>
-                            <div class="col-md-6">
-                                <div id="drag_drop">Drag & Drop File Here</div>
-                            </div>
-                            <div class="col-md-3">&nbsp;</div>
-                        </div>
-                    </div>
-                </div>
-                <br />
-                <div class="progress" id="progress_bar" style="display:none; height:50px;">
-                    <div class="progress-bar bg-success" id="progress_bar_process" role="progressbar" style="width:0%; height:50px;">0%
-
-                    </div>
-                </div>
-                <div id="uploaded_image" class="row mt-5"></div>
-            </div>
-
-            <style>
-                #drag_drop{
-                    background-color : #f9f9f9;
-                    border : #ccc 4px dashed;
-                    line-height : 150px;
-                    padding : 12px;
-                    font-size : 24px;
-                    text-align : center;
-                }
-
-                </style>
-
-                <!-- ******************************************************** -->
-                                
-                
                 <style>
                     .dragged-over {
                         border : #ccc 45px;
@@ -154,8 +116,7 @@
                         display: block;
                         }
                     #blisa {
-                    position: relative;
-
+                        position: relative;
                         background-color : #f9f9f9;
                         border :  4px dashed #ccc;
                         line-height : 150px;
@@ -163,75 +124,15 @@
                         font-size : 24px;
                         text-align : center;
                         }
-
-                    
-
                     #blisa.dragged-over {
-                        border: 5px solid;
+                        border: 5px dashed black;
                         }
                 </style>
-                
-                <!-- <label for="image-event" id="image-event-label" class="card">
-                        Upload Image
-                        <input type="file" name="image-event" id="image-event" >
-                </label> <br><br> -->
-
-                <div id="blisa"    >                        
-                        <label for="img"  name="image-event-label">Drag & Drop File Here or <button class="btn btn-primary" > click here to upload image</button></label>
-                            <input type="file" id="img" name="img"
-                                onchange="if(!this.files[0].name.match(/.(jpg|jpeg|gif|png|bmp|svg|svgz|cgm|djv|djvu|ico|ief|jpe|pbm|pgm|pnm|ppm|ras|rgb|tif|tiff|wbmp|xbm|xpm|xwd)$/i))
-                                        {alert('not an image');}
-                                      else if(this.files[0].size > '10000000'){ 
-                                        event.stopImmediatePropagation();                    
-                                        alert('File uploads cannot be larger than 1MB.');
-                                        this.form.reset();
-                                        }
-                                        " 
-                            wire:model="photo" />
-                            
-                    </div>
-
-                    <script>
-                            // only to show where is the drop-zone:
-                        $('#blisa').on('dragenter', function() {
-                        this.classList.add('dragged-over');
-                        })
-                        .on('dragend drop dragexit dragleave', function() {
-                        this.classList.remove('dragged-over');
-                        });
-                    </script>
-                
-                
-
-
-
-                <!-- ******************************************************** -->
-
-                
-
-            <!-- End of Uploading image ovde probam drop zone -->
-
 
         <div class="col-3" style="text-align:center">
             <h6>Singe photo uploading</h6>     
 
-                @if(!$photo)
-                    <!-- Picture uploading -->
-                    <!-- 100mb = 100000000 ; 1mb=1000000 -->
-                    <!-- <div>                        
-                        <label for="img" class="btn btn-info">Upload Image</label>
-                            <input type="file" id="img" name="img" style="display:none"
-                                onchange="if(!this.files[0].name.match(/.(jpg|jpeg|gif|png|bmp|svg|svgz|cgm|djv|djvu|ico|ief|jpe|pbm|pgm|pnm|ppm|ras|rgb|tif|tiff|wbmp|xbm|xpm|xwd)$/i))
-                                        {alert('not an image');}
-                                      else if(this.files[0].size > '10000000'){ 
-                                        event.stopImmediatePropagation();                    
-                                        alert('File uploads cannot be larger than 1MB.');
-                                        this.form.reset();
-                                        }
-                                        " 
-                            wire:model="photo" />
-                    </div> -->
-                @endif       
+                
 
                 <!-- Modal za upload formu-->
                     <div class="modal" id="photoUploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" wire:ignore.self>
@@ -247,6 +148,7 @@
                                         <div class="modal-body">                                        
                                                     @if($photo)            
                                                             <img src="{{ $photo->temporaryUrl() }}"  alt="" width="300" >
+                                                            <br>
                                                             <div>
                                                                 <input wire:model.defer.debounce.500ms="newImgEditName" type="text" placeholder="add project name - *optional" >
                                                             </div>                                                            
@@ -273,11 +175,6 @@
                         })
                     </script>
                 <!-- End of Modal za upload formu-->
-
-                          
-                   
-                    
-                    
                             
                     @if($imageUDb)                    
                         <h6>Image properties:</h6>
@@ -286,17 +183,12 @@
                         <p>height: {{$height}}</p>                        
                     @endif
                             <!-- Ovo sta znam mozda ti zatreba pa ostavljam ispise text dok nesto radi -->
-                            <!-- <div wire:loading wire:target="photo">Uploading...</div>
-                            <div wire:loading wire:target="savePhoto">Saving photo...</div> -->
+                            <div wire:loading wire:target="photo">Uploading...</div>
+                            <div wire:loading wire:target="savePhoto">Saving photo...</div>
                             <br>
-                
-
-                
         </div>
-
-
         <!-- Sama photografija ovde -->
-        <!-- ------------------------------------------------------------ -->       
+        <!-- ------------------------------------------------------------ -->  
         
         <div class="col-7">
             <div>
@@ -310,9 +202,41 @@
             <!-- <button onclick="saveFunction();"  ></button> -->
             @else
             <!-- ovde bih voleo da probam drag and drop here -->
-            <div>
+
+            @if(!$photo)
+                <div id="blisa"    >                        
+                        <label for="img"  name="image-event-label">Drag & Drop File Here or <button class="btn btn-primary" > click here to upload image</button></label>
+                            <input type="file" id="img" name="img"
+                                onchange="if(!this.files[0].name.match(/.(jpg|jpeg|gif|png|bmp|svg|svgz|cgm|djv|djvu|ico|ief|jpe|pbm|pgm|pnm|ppm|ras|rgb|tif|tiff|wbmp|xbm|xpm|xwd)$/i))
+                                        {alert('not an image');}
+                                      else if(this.files[0].size > '10000000'){ 
+                                        event.stopImmediatePropagation();                    
+                                        alert('File uploads cannot be larger than 1MB.');
+                                        this.form.reset();
+                                        }
+                                        " 
+                            wire:model="photo" />
+                    </div>
+                    
+                @endif       
+
+                <script>
+                            // only to show where is the drop-zone:
+                        $('#blisa').on('dragenter dragover', function() {
+                        this.classList.add('dragged-over');
+                        })
+                        .on('dragend drop dragexit dragleave', function() {
+                        this.classList.remove('dragged-over');
+                        });
+                    </script>
+
+                <!-- ******************************************************** -->                
+
+            <!-- End of DROP ZONE -->
+
+            <!-- <div>
                 <img src="{{ asset('photos\ImgPlaceholder\placeholder.png')}}" class="img-fluid" alt="2Responsive image" width="400">
-            </div>
+            </div> -->
             @endif
             <!-- Buttons za Save/Download/Discharge -->
             <br>
@@ -535,6 +459,7 @@
                         bs_modal.on('shown.bs.modal', function() {    
                                                   
                             cropper = new Cropper(image, {
+                                background: false,
                                 autoCropArea: 0.7,
                                 viewMode: 1,
                                 center: true,
