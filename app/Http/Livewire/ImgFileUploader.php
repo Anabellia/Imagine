@@ -190,9 +190,7 @@ class ImgFileUploader extends Component
         $this->newImgEditName = "";
         session()->flash('uploadMess', 'Image successfully uploaded!');
         $this->emit('uploadMess_remove');
-                
-
-        /*  */
+        $this->dispatchBrowserEvent('hideModal-uploadingPhoto');
     }
 
     public function mount(){

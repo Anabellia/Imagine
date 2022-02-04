@@ -56,9 +56,6 @@
             </div>
         </div>
     
-            
-  
-
     
     <hr>
     <!-- =============================================================================== -->
@@ -67,7 +64,8 @@
     <div class="container">
         <div class="row">
 
-            <!-- Levo history of editing -->
+        <!-- ***************************************************** -->
+        <!-- Levo history of editing -->
             <div class="col-2">            
                 <h5>History:</h5>
                     @foreach($edits as $edit)  
@@ -91,31 +89,97 @@
                                         style="cursor: pointer; color: grey" ></i>                                                        
                             <!--kraj za Iconica x -->
                         </div>
-                    </div>   
-                    
-                    <p class="small">{{$edit->created_at->diffForHumans()}}</p>                    
-                     
-                    
-                    
+                    </div>                       
+                    <p class="small">{{$edit->created_at->diffForHumans()}}</p>
                     <!-- <img src="{{asset('storage/' . $edit->path)}}" alt="" width="80" > -->
                     <hr>
                     @endforeach
                     {{ $edits->links() }}
             </div>
             <!-- End of Levo history of editing -->
+            <!-- ***************************************************** -->
 
+            <!-- Uploading image ovde probam drop zone -->
+            <div class="container">
+                <h6 class="mt-5 mb-5 text-center text-primary"><b>Drag & Drop Upload Multiple File with Progress Bar using JavaScript in PHP</b></h6>
 
+                <div class="card">
+                    <div class="card-header">Drag & Drop File Here</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">&nbsp;</div>
+                            <div class="col-md-6">
+                                <div id="drag_drop">Drag & Drop File Here</div>
+                            </div>
+                            <div class="col-md-3">&nbsp;</div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="progress" id="progress_bar" style="display:none; height:50px;">
+                    <div class="progress-bar bg-success" id="progress_bar_process" role="progressbar" style="width:0%; height:50px;">0%
 
-        <div class="col-3" style="text-align:center">
-            <h6>Singe photo uploading</h6>     
+                    </div>
+                </div>
+                <div id="uploaded_image" class="row mt-5"></div>
+            </div>
 
-                @if(!$photo)
-                    <!-- Picture uploading -->
-                    <div>
-                        <!-- 100mb = 100000000 ; 1mb=1000000 -->
-                        <label for="img" class="btn btn-info">Upload Image</label>
-                        <input type="file" id="img" style="display:none"
-                            onchange="if(!this.files[0].name.match(/.(jpg|jpeg|gif|png|bmp|svg|svgz|cgm|djv|djvu|ico|ief|jpe|pbm|pgm|pnm|ppm|ras|rgb|tif|tiff|wbmp|xbm|xpm|xwd)$/i))
+            <style>
+                #drag_drop{
+                    background-color : #f9f9f9;
+                    border : #ccc 4px dashed;
+                    line-height : 150px;
+                    padding : 12px;
+                    font-size : 24px;
+                    text-align : center;
+                }
+
+                </style>
+
+                <!-- ******************************************************** -->
+                                
+                
+                <style>
+                    .dragged-over {
+                        border : #ccc 45px;
+                        }   
+                        
+                    #img {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        opacity: 0;
+                        width: 100%;
+                        height: 100%;
+                        display: block;
+                        }
+                    #blisa {
+                    position: relative;
+
+                        background-color : #f9f9f9;
+                        border :  4px dashed #ccc;
+                        line-height : 150px;
+                        padding : 12px;
+                        font-size : 24px;
+                        text-align : center;
+                        }
+
+                    
+
+                    #blisa.dragged-over {
+                        border: 5px solid;
+                        }
+                </style>
+                
+                <!-- <label for="image-event" id="image-event-label" class="card">
+                        Upload Image
+                        <input type="file" name="image-event" id="image-event" >
+                </label> <br><br> -->
+
+                <div id="blisa"    >                        
+                        <label for="img"  name="image-event-label">Drag & Drop File Here or <button class="btn btn-primary" > click here to upload image</button></label>
+                            <input type="file" id="img" name="img"
+                                onchange="if(!this.files[0].name.match(/.(jpg|jpeg|gif|png|bmp|svg|svgz|cgm|djv|djvu|ico|ief|jpe|pbm|pgm|pnm|ppm|ras|rgb|tif|tiff|wbmp|xbm|xpm|xwd)$/i))
                                         {alert('not an image');}
                                       else if(this.files[0].size > '10000000'){ 
                                         event.stopImmediatePropagation();                    
@@ -124,47 +188,88 @@
                                         }
                                         " 
                             wire:model="photo" />
+                            
                     </div>
+
+                    <script>
+                            // only to show where is the drop-zone:
+                        $('#blisa').on('dragenter', function() {
+                        this.classList.add('dragged-over');
+                        })
+                        .on('dragend drop dragexit dragleave', function() {
+                        this.classList.remove('dragged-over');
+                        });
+                    </script>
+                
+                
+
+
+
+                <!-- ******************************************************** -->
+
+                
+
+            <!-- End of Uploading image ovde probam drop zone -->
+
+
+        <div class="col-3" style="text-align:center">
+            <h6>Singe photo uploading</h6>     
+
+                @if(!$photo)
+                    <!-- Picture uploading -->
+                    <!-- 100mb = 100000000 ; 1mb=1000000 -->
+                    <!-- <div>                        
+                        <label for="img" class="btn btn-info">Upload Image</label>
+                            <input type="file" id="img" name="img" style="display:none"
+                                onchange="if(!this.files[0].name.match(/.(jpg|jpeg|gif|png|bmp|svg|svgz|cgm|djv|djvu|ico|ief|jpe|pbm|pgm|pnm|ppm|ras|rgb|tif|tiff|wbmp|xbm|xpm|xwd)$/i))
+                                        {alert('not an image');}
+                                      else if(this.files[0].size > '10000000'){ 
+                                        event.stopImmediatePropagation();                    
+                                        alert('File uploads cannot be larger than 1MB.');
+                                        this.form.reset();
+                                        }
+                                        " 
+                            wire:model="photo" />
+                    </div> -->
                 @endif       
 
                 <!-- Modal za upload formu-->
-                    <div class="modal" id="photoUploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                            <form wire:submit.prevent="savePhoto" enctype='multipart/form-data'>
-                                        @if($photo)                        
-                                                        <i wire:click="removePhoto"                                         
-                                                            class="fas fa-times-circle fa-2x" 
-                                                            onmouseover="this.style.color='red'" 
-                                                            onmouseout="this.style.color='grey'" 
-                                                            style="cursor: pointer; color: grey" ></i>                                                        
-                                                                   
-                                                <img src="{{ $photo->temporaryUrl() }}"  alt="" width="200" >
-                                                <div>
-                                                <input wire:model.debounce.500ms="newImgEditName" type="text" placeholder="Image Edit Name" >
-                                            </div>
-                                                <button type="submit">Save Photo</button>
-                                        @endif
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
-                            </div>
+                    <div class="modal" id="photoUploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" wire:ignore.self>
+                        <div class="modal-dialog modal-dialog-centered" role="document" >
+                            <form wire:submit.prevent="savePhoto" >
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                        <div class="modal-body">                                        
+                                                    @if($photo)            
+                                                            <img src="{{ $photo->temporaryUrl() }}"  alt="" width="300" >
+                                                            <div>
+                                                                <input wire:model.defer.debounce.500ms="newImgEditName" type="text" placeholder="add project name - *optional" >
+                                                            </div>                                                            
+                                                    @endif                                            
+                                        </div>
+                                <div class="modal-footer">
+                                    <button wire:click="removePhoto" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary" >Upload image</button>
+                                </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     
                     <script>
                         window.addEventListener('show-uploadingPhoto', event => {
                             $('#photoUploadModal').modal('show');
+                        })
+                    </script>
+
+                    <script>
+                        window.addEventListener('hideModal-uploadingPhoto', event => {
+                            $('#photoUploadModal').modal('hide');
                         })
                     </script>
                 <!-- End of Modal za upload formu-->
@@ -474,7 +579,7 @@
     <!-- =============================================================================== -->
     <!-- CROPPER . JS KRAJ -->
     <!-- =============================================================================== -->
-    
+
     
 
 </div>
