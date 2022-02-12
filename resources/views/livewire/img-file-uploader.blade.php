@@ -245,6 +245,15 @@
                 &nbsp;&nbsp;&nbsp;
                 <button wire:click.prevent="modalDiscardFire" class="btn btn-outline-danger" @if(!$iUDbPath) disabled @endif>Discard</button>
             </div>
+                        <br>
+            <!-- Button za save this project -->
+            <button wire:click="saveProject" type="button" class="btn btn-outline-dark" >Save project</button>
+            &nbsp;&nbsp;&nbsp;
+            <!-- Button za dovnload image -->
+            <button wire:click="downloadImage" type="button" class="btn btn-outline-dark">Download image</button>
+
+
+
 
             
 

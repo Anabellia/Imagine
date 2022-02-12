@@ -19,6 +19,8 @@
                 <!-- ---------------- -->
                 <div>          
                 <a href="{{ route('image-editor') }}"><button class="btn btn-info">Edit image</button></a>
+
+                <a href="{{ route('my-projects') }}"><button class="btn btn-info">My Saved Projets</button></a>
                 
                 </div>   
                 <br>
