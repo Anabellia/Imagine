@@ -86,7 +86,10 @@ class ImgFileUploader extends Component
                 'edit_step_number' => $this->imageUDb->edit_step_number + 1, //+1 da pratim korake
                 'action_made' => 'cropped',
                 'edit_id' => $this->imageUDb->edit_id,
+                
             ]);
+
+            
         /* ------------------------------------------ */
 
         $this->iUDbPath = 'storage/' . $this->imageUDb->path;
@@ -139,28 +142,41 @@ class ImgFileUploader extends Component
         /* grab temp img path */
         $path = $this->photo->path();
         /* grab extension from path */
-        $extension = pathinfo($path, PATHINFO_EXTENSION);
+        $extension[0] = pathinfo($path, PATHINFO_EXTENSION);
         /* generate rand name */
-        $name = Str::random();
-        /* dd($this->photo); */
+        $name[0] = Str::random();
+
+        if(!$this->newImgEditName){
+            $this->newImgEditName = 'new project';
+        }
+        $nIEN[0] = $this->newImgEditName;
+        
         //u storage put novu pics u folder photos / user id / randomName.extension 
-        $storePath = $this->photo->storeAs('photos' . '/' .$user->id , $name . '.' .  $extension);
-        //dd($storePath->getRealPath());
+        $storePath = $this->photo->storeAs('photos' . '/' .$user->id , $name[0] . '.' .  $extension[0]);
+        
+        $storePath[0] = $storePath;
+        //dd($storePath);
+        $e_s_n[0] = 'sasdsd';
+        $action[0] = 'created';
+        $tmstmp[0] = date('Y-m-d H:i:s');
+
+        //dd($name . $nIEN . $storePath);
         /* ------------------------------------------ */
         /* Put it in a db for first */
         $this->imageUDb = ImageProperties::create(
             [
                 'image_name' => $name, 
+                'image_editing_name' => $nIEN,
                 //'user_id' => 1,
                 'user_id' => auth()->user()->id,
                 'path' => $storePath,
-                'extension' => $extension,
-                'image_editing_name' => $this->newImgEditName,
-                'edit_step_number' => 0,
-                'action_made' => 'created',
-                'edit_id' => Str::random(),
-                
+                'extension' => $extension,                
+                'edit_step_number' => $e_s_n,
+                'action_made' => $action,                
+                'action_made_timestamp' => $tmstmp,
+                'unique_edit_id' => Str::random(),
             ]);
+            
         /* ------------------------------------------ */
         //dd($this->imageUDb->path);
         $this->iUDbPath = 'storage/' . $this->imageUDb->path;

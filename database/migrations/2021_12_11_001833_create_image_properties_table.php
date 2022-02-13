@@ -15,14 +15,15 @@ class CreateImagePropertiesTable extends Migration
     {
         Schema::create('image_properties', function (Blueprint $table) {
             $table->id();            
-            $table->string('image_name')->nullable();
-            $table->string('image_editing_name')->nullable();
+            $table->json('image_name')->nullable(); //array
+            $table->json('image_editing_name')->nullable(); //array
             $table->unsignedBigInteger('user_id');
-            $table->string('path')->nullable();
-            $table->string('extension')->nullable();
-            $table->integer('edit_step_number')->nullable();
-            $table->string('action_made')->nullable();
-            $table->string('edit_id')->nullable();            
+            $table->json('path')->nullable(); //array
+            $table->json('extension')->nullable(); //array
+            $table->json('edit_step_number')->nullable(); //array
+            $table->json('action_made')->nullable(); //array
+            $table->json('action_made_timestamp')->nullable(); //array
+            $table->string('unique_edit_id')->nullable();            
             $table->timestamps();
         });
     }

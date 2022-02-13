@@ -8,18 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class ImageProperties extends Model
 {
     use HasFactory;
-
     
+    //sad cu dodam ovde ovo da mogu json u i iz db
+    protected $casts = [
+        'image_name' => 'array',
+        'image_editing_name' => 'array',
+        'path' => 'array',
+        'extension' => 'array',
+        'edit_step_number' => 'array',        
+        'action_made' => 'array',        
+        'action_made_timestamp' => 'array',        
+    ];
 
     protected $fillable = [
-        'user_id',
-        'image_name',
-        'path',
-        'extension',
-        'image_editing_name',
-        'edit_step_number',
-        'action_made',
-        'edit_id',
+        'user_id',  
+        
     ];
     
     public function comments(){
