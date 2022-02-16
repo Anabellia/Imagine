@@ -64,6 +64,30 @@
     <div class="container">
         <div class="row">
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <!-- ***************************************************** -->
         <!-- Levo history of editing -->
             <div class="col-2">            
@@ -98,6 +122,27 @@
             </div>
             <!-- End of Levo history of editing -->
             <!-- ***************************************************** -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+
+
+
+
 
         <!-- DROP ZONE -->            
 
@@ -193,7 +238,7 @@
         <div class="col-7">
             <div>
                 <p>@if($title)Title: {{$title}} @else Untitled @endif</p>
-                
+               
             </div>
             @if($iUDbPath)
             <div style="text-align:center">

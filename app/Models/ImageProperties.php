@@ -22,6 +22,13 @@ class ImageProperties extends Model
 
     protected $fillable = [
         'user_id',  
+        'image_name',
+        'image_editing_name',
+        'path',
+        'extension',
+        'edit_step_number',        
+        'action_made',        
+        'action_made_timestamp',
         
     ];
     

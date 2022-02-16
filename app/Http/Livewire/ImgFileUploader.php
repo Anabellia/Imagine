@@ -19,8 +19,19 @@ class ImgFileUploader extends Component
 
     use WithFileUploads;
 
+    /* 'image_name' => 'array',
+        'image_editing_name' => 'array',
+        'path' => 'array',
+        'extension' => 'array',
+        'edit_step_number' => 'array',        
+        'action_made' => 'array',        
+        'action_made_timestamp' => 'array',  */
+
+    /* ovaj ce da bude da pratim koji sam korak pa da mogu da pullam iz array */
+    public $ed_st_no; //array
+
     //Name of single photo editing design
-    public $newImgEditName;
+    public $newImgEditName; //array
     public $title;
     //single pic upload
     public $photo;
@@ -135,6 +146,9 @@ class ImgFileUploader extends Component
             return null;
         } 
 
+        //ovo prvo da pratimo na kom koraku smo u array
+        $this->ed_st_no[0] = 0;
+        $korak = $this->ed_st_no[0];
         /* Ako imamo image: */
         //dd($this->newImgEditName);
         /* grab user id */
@@ -142,23 +156,23 @@ class ImgFileUploader extends Component
         /* grab temp img path */
         $path = $this->photo->path();
         /* grab extension from path */
-        $extension[0] = pathinfo($path, PATHINFO_EXTENSION);
+        $extension[$korak] = pathinfo($path, PATHINFO_EXTENSION);
         /* generate rand name */
-        $name[0] = Str::random();
+        $name[$korak] = Str::random();
 
         if(!$this->newImgEditName){
             $this->newImgEditName = 'new project';
         }
-        $nIEN[0] = $this->newImgEditName;
+        $nIEN[$korak] = $this->newImgEditName;
         
         //u storage put novu pics u folder photos / user id / randomName.extension 
-        $storePath = $this->photo->storeAs('photos' . '/' .$user->id , $name[0] . '.' .  $extension[0]);
+        $storePath = $this->photo->storeAs('photos' . '/' .$user->id , $name[$korak] . '.' .  $extension[$korak]);
         
-        $storePath[0] = $storePath;
+        $storePath[$korak] = $storePath;
         //dd($storePath);
-        $e_s_n[0] = 'sasdsd';
-        $action[0] = 'created';
-        $tmstmp[0] = date('Y-m-d H:i:s');
+        
+        $action[$korak] = 'created';
+        $tmstmp[$korak] = date('Y-m-d H:i:s');
 
         //dd($name . $nIEN . $storePath);
         /* ------------------------------------------ */
@@ -169,21 +183,21 @@ class ImgFileUploader extends Component
                 'image_editing_name' => $nIEN,
                 //'user_id' => 1,
                 'user_id' => auth()->user()->id,
-                'path' => $storePath,
+                'path' => $storePath, //nija array
                 'extension' => $extension,                
-                'edit_step_number' => $e_s_n,
+                'edit_step_number' => [$korak],
                 'action_made' => $action,                
                 'action_made_timestamp' => $tmstmp,
                 'unique_edit_id' => Str::random(),
             ]);
             
         /* ------------------------------------------ */
-        //dd($this->imageUDb->path);
+        //dd($this->imageUDb);
         $this->iUDbPath = 'storage/' . $this->imageUDb->path;
 
         //$path = storage_path();
-        //dd($this->iUDbPath);               
-        $this->title = $this->newImgEditName;
+        //dd($this->imageUDb->image_editing_name[$korak]);               
+        $this->title = $this->imageUDb->image_editing_name[$korak];
             //dd($fuck);
         /* clear photo var */
         // \storage\photos\34\LdLDLncOq9SCZtaS.jpg
@@ -194,7 +208,7 @@ class ImgFileUploader extends Component
         $this->width = $interImage->width();
         $this->height = $interImage->height();
         $exif = ImageManagerStatic::make($this->iUDbPath)->exif();
-        /* dd($exif); */
+        //dd($exif);
         
         /* 'Image extension: ' $interImage->extension . 
             ' mime type: ' . $interImage->mime . 
@@ -301,4 +315,7 @@ class ImgFileUploader extends Component
             'edits' => ImageProperties::where('user_id', (auth()->user()->id))->latest()->simplePaginate(4),
         ]);
     }
+    /* {
+        return view('livewire.img-file-uploader');
+    } */
 }
