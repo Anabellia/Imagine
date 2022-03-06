@@ -73,7 +73,12 @@ class ImgFileUploader extends Component
         $image_type_aux = explode("image/", $image_parts[0]);
         $image_type = $image_type_aux[1];
         $image_base64 = base64_decode($image_parts[1]);
-        $imageName = $name . '.' . $this->imageUDb->extension;
+
+        $myLastElement = end($this->imageUDb->extension);        
+        dd($myLastElement);
+
+
+        $imageName = $name . '.' . end($this->imageUDb->extension);
         $imageFullPath = $folderPath.$imageName;
         file_put_contents($imageFullPath, $image_base64);
 
@@ -166,34 +171,35 @@ class ImgFileUploader extends Component
         $nIEN[$korak] = $this->newImgEditName;
         
         //u storage put novu pics u folder photos / user id / randomName.extension 
-        $storePath = $this->photo->storeAs('photos' . '/' .$user->id , $name[$korak] . '.' .  $extension[$korak]);
+        $sPath = $this->photo->storeAs('photos' . '/' .$user->id , $name[$korak] . '.' .  $extension[$korak]);
         
-        $storePath[$korak] = $storePath;
+        $storePath[$korak] = $sPath;
         //dd($storePath);
         
         $action[$korak] = 'created';
         $tmstmp[$korak] = date('Y-m-d H:i:s');
-
+        
         //dd($name . $nIEN . $storePath);
         /* ------------------------------------------ */
-        /* Put it in a db for first */
+        /* Put it in a db for first time*/
         $this->imageUDb = ImageProperties::create(
             [
                 'image_name' => $name, 
                 'image_editing_name' => $nIEN,
                 //'user_id' => 1,
                 'user_id' => auth()->user()->id,
-                'path' => $storePath, //nija array
+                'path' => $storePath, //array
                 'extension' => $extension,                
                 'edit_step_number' => [$korak],
                 'action_made' => $action,                
                 'action_made_timestamp' => $tmstmp,
                 'unique_edit_id' => Str::random(),
+                
             ]);
             
         /* ------------------------------------------ */
         //dd($this->imageUDb);
-        $this->iUDbPath = 'storage/' . $this->imageUDb->path;
+        $this->iUDbPath = 'storage/' . $this->imageUDb->path[$korak];
 
         //$path = storage_path();
         //dd($this->imageUDb->image_editing_name[$korak]);               

@@ -65,29 +65,6 @@
         <div class="row">
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <!-- ***************************************************** -->
         <!-- Levo history of editing -->
             <div class="col-2">            
@@ -97,12 +74,14 @@
                     <div class="d-flex">
                         <!-- mr-2 znaci space margin desno 2 -->
                         <div class="mr-2">
-                            @if($edit->edit_step_number == 0) <h6>{{$edit->action_made}}</h6>@else <p>{{$edit->action_made}}</p>@endif
+                            @foreach($edit->edit_step_number as $steps)
+                            @if($edit->edit_step_number[$steps] == 0) <h6>{{$edit->action_made[$steps]}}</h6>@else <p>{{$edit->action_made[$steps]}}</p>@endif
+                            @endforeach
                         </div>
                                              
                         <div class="ml-auto">
                             <!-- Iconica x -->            
-                                    <!-- Ovaj comment id kako je se dobio je 
+                                    <!-- Ovaj edit id kako je se dobio je 
                                     interesantan ako hoces da capis nesto iz bledea mora biti double bracess
                                     A ovaj fas fa-times je iconica iz fontawesome!!!
                                     -->                                            
@@ -110,38 +89,18 @@
                                         class="fas fa-trash" 
                                         onmouseover="this.style.color='red'" 
                                         onmouseout="this.style.color='grey'" 
-                                        style="cursor: pointer; color: grey" ></i>                                                        
+                                        style="cursor: pointer; color: grey" ></i>                                              
                             <!--kraj za Iconica x -->
                         </div>
                     </div>                       
                     <p class="small">{{$edit->created_at->diffForHumans()}}</p>
-                    <!-- <img src="{{asset('storage/' . $edit->path)}}" alt="" width="80" > -->
+                    
                     <hr>
                     @endforeach
                     {{ $edits->links() }}
             </div>
             <!-- End of Levo history of editing -->
             <!-- ***************************************************** -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-
-
-
 
 
         <!-- DROP ZONE -->            

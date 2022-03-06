@@ -29,6 +29,7 @@ class ImageProperties extends Model
         'edit_step_number',        
         'action_made',        
         'action_made_timestamp',
+        'unique_edit_id',
         
     ];
     
